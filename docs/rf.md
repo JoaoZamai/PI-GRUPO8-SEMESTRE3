@@ -1,25 +1,49 @@
-## Requisitos Funcionais (RF)
+# Requisitos Funcionais (RF)
 
-### RF01 — Login do usuário
-O sistema deve permitir que o usuário realize login com e-mail e senha.
+Os requisitos funcionais descrevem as funcionalidades que o sistema deve possuir para atender às necessidades dos usuários e da empresa.
 
-### RF02 — Recuperar senha
-O sistema deve permitir que o usuário solicite recuperação de senha por e-mail.
 
-### RF03 — Atualização de perfil
-O usuário pode alterar nome, foto e dados pessoais.
+## RF01 — Cadastro de Usuário
 
-### RF04 - Cadastro de novos usuários
-O sistema deve permitir que novos usuários sejam criados.
+O sistema deve permitir que novos usuários realizem cadastro informando nome, e-mail e senha para acesso ao aplicativo.
 
-### RF05 - Gerenciar máquinas
-O sistema deve permitir que o usuário cadastre e edite máquinas.
 
-### RF06 - Associar máquinas
-O sistema deve permitir que o usuário associe o cadastro de uma máquina a um operador específico.
+## RF02 — Login do Usuário
 
-### RF07 - Dashboard
-O sistema deve exibir as informações capturadas em gráficos, permitindo filtros.
+O sistema deve permitir que usuários cadastrados realizem login utilizando e-mail e senha para acessar o sistema.
 
-### RF08 - Resumo por IA
-O sistema deve gerar por meio de IA relatórios de acordo com o filtro do usuário.
+
+## RF03 — Recuperação de Senha
+
+O sistema deve permitir que o usuário solicite a redefinição de senha por meio do e-mail cadastrado.
+
+---
+
+## RF04 — Atualização de Perfil
+
+O sistema deve permitir que o usuário altere suas informações pessoais, como nome, foto de perfil e demais dados cadastrados.
+
+
+## RF05 — Cadastro de Máquinas
+
+O sistema deve permitir o cadastro de máquinas de corte no sistema para monitoramento da produção.
+
+
+## RF06 — Associação de Máquina a Usuário
+
+O sistema deve permitir associar uma máquina cadastrada a um operador responsável.
+
+
+## RF07 — Visualização do Dashboard
+
+O sistema deve apresentar um dashboard com dados de produção capturados das máquinas cadastradas.
+
+
+## RF08 — Gráfico de Produção Diária
+
+O sistema deve apresentar gráficos que exibam a produção diária das máquinas monitoradas.
+
+
+## RF09 — Resumo de Produção com IA
+
+O sistema deve gerar automaticamente um resumo textual da produção utilizando inteligência artificial com base nos dados coletados.
