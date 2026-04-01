@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/login_viewmodel.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  late final LoginViewmodel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = LoginViewmodel();
+  }
+
+  @override
+  void dispose() {
+    viewModel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +77,9 @@ class LoginScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextFormField(
-                              /*controller: viewModel.emailController,*/
+                              controller: viewModel.emailController,
                               keyboardType: TextInputType.emailAddress,
-                              /*validator: viewModel.emailValidator,*/
+                              validator: viewModel.emailValidator,
                               decoration: const InputDecoration(
                                 labelText: "Email",
                                 border: OutlineInputBorder(),
@@ -69,20 +90,19 @@ class LoginScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 25),
                             TextFormField(
-                              /*controller: viewModel.passwordController,
+                              controller: viewModel.passwordController,
                               obscureText: viewModel.obscurePassword,
-                              validator: viewModel.passwordValidator,*/
+                              validator: viewModel.passwordValidator,
                               decoration: InputDecoration(
                                 labelText: "Senha",
                                 border: OutlineInputBorder(),
                                 prefixIcon: Icon(Icons.lock_outlined),
                                 suffixIcon: IconButton(
-                                  onPressed: (){},//viewModel.togglePasswordVisibility,
+                                  onPressed: viewModel.togglePasswordVisibility,
                                   icon: Icon(
-                                    /*viewModel.obscurePassword
+                                    viewModel.obscurePassword
                                         ? Icons.visibility
-                                        : Icons.visibility_off, */
-                                      Icons.visibility_off
+                                        : Icons.visibility_off,
                                   ),
                                 ),
                                 filled: true,
