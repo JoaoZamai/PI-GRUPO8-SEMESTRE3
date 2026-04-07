@@ -3,4 +3,9 @@ abstract class AppRoutes {
   static const String register = '/register';
   static const String home = '/home';
   static const String splash = '/splash';
+  static const String machine = '/machine';
+  static const String MachineSettings =
+      '/mchsettings'; // nao sabemos ainda se vamos dar continuidade nesta tela
+  static const String settings = '/settings';
+  static const String profile = '/profile';
 }

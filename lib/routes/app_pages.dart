@@ -1,10 +1,12 @@
+import 'package:PIGRUPO8SEMESTRE3main/ui/maquina_screen.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
-
 import 'package:PIGRUPO8SEMESTRE3main/ui/login_screen.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/cadastro_screen.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/splash_page.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/home_screen.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/usuario_screen.dart';
 
 abstract class AppPages {
   static Map<String, WidgetBuilder> get routes => {
@@ -12,5 +14,8 @@ abstract class AppPages {
     AppRoutes.register: (_) => const CadastroScreen(),
     AppRoutes.home: (_) => const HomePage(),
     AppRoutes.splash: (_) => const SplashPage(),
+    AppRoutes.machine: (_) => const MachineScreen(),
+    AppRoutes.settings: (_) => const SettingsScreen(),
+    AppRoutes.profile: (_) => const UserScreen(),
   };
 }

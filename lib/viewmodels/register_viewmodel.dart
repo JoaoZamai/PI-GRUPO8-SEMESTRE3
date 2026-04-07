@@ -40,10 +40,7 @@ class RegisterViewmodel extends ChangeNotifier {
   String? confirmValidator(String? value) {
     return Validatorless.multiple([
       Validatorless.required('Confirmação de senha é obrigatória'),
-      Validatorless.compare(
-        passwordController,
-        'As senhas não coincidem',
-      ),
+      Validatorless.compare(passwordController, 'As senhas não coincidem'),
     ])(value);
   }
 
@@ -56,7 +53,6 @@ class RegisterViewmodel extends ChangeNotifier {
     obscureConfirm = !obscureConfirm;
     notifyListeners();
   }
-
 
   String hashSenha(String senha) {
     return sha256.convert(utf8.encode(senha)).toString();
@@ -75,7 +71,7 @@ class RegisterViewmodel extends ChangeNotifier {
 
       //verifica email
       final result = await FirebaseFirestore.instance
-          .collection('Usuarios')
+          .collection('usuarios')
           .where('email', isEqualTo: email)
           .get();
 
@@ -102,5 +98,4 @@ class RegisterViewmodel extends ChangeNotifier {
       return "Erro ao cadastrar usuário";
     }
   }
-
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -109,7 +110,9 @@ class HomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.machine);
+                        },
                         child: const Text(
                           "VISUALIZAR",
                           style: TextStyle(
@@ -154,8 +157,12 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _bottomButton(Icons.settings, "Configurações"),
-                _bottomButton(Icons.person, "Usuário"),
+                _bottomButton(Icons.settings, "Configurações", () {
+                  Navigator.pushNamed(context, AppRoutes.settings);
+                }),
+                _bottomButton(Icons.person, "Usuário", () {
+                  Navigator.pushNamed(context, AppRoutes.profile);
+                }),
               ],
             ),
 
@@ -185,17 +192,26 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  static Widget _bottomButton(IconData icon, String text) {
+  static Widget _bottomButton(
+    IconData icon,
+    String text,
+    VoidCallback onPressed,
+  ) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Column(
-          children: [Icon(icon), const SizedBox(height: 5), Text(text)],
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey.shade300,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          onPressed: onPressed,
+          child: Column(
+            children: [Icon(icon), const SizedBox(height: 5), Text(text)],
+          ),
         ),
       ),
     );
