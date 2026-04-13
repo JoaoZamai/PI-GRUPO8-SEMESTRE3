@@ -32,3 +32,8 @@ Para acompanhar o desempenho das máquinas.
 - O dashboard deve atualizar automaticamente.
 
 ---
+
+Diagrama de Atividade
+
+<img width="582" height="518" alt="image" src="https://github.com/user-attachments/assets/05b8de37-7de4-42d6-8f9a-ab7266a2b523" />
+
