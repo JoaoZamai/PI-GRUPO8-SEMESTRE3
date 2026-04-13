@@ -33,3 +33,8 @@ Para manter meus dados atualizados.
 - O sistema deve salvar as alterações.
 
 ---
+
+### Diagrama de Atividade
+
+<img width="418" height="547" alt="image" src="https://github.com/user-attachments/assets/71d69ec0-c22a-4423-a8c9-d79690853b05" />
+
