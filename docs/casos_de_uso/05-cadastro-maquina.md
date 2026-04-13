@@ -33,3 +33,5 @@ Para monitorar a produção de cada equipamento.
 - Deve salvar os dados da máquina no sistema.
 
 ---
+
+<img width="697" height="547" alt="image" src="https://github.com/user-attachments/assets/65342ab4-8486-499c-940c-e10e118498e3" />
