@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, AppRoutes.settings);
                 }),
                 _bottomButton(Icons.person, "Usuário", () {
-                  Navigator.pushNamed(context, AppRoutes.profile);
+                  Navigator.pushNamed(context, AppRoutes.user);
                 }),
               ],
             ),
@@ -169,20 +169,21 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 15),
 
             /// SOBRE
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
-              child: const Center(
-                child: Text(
-                  "SOBRE",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.sobre);
+              },
+              child: const Text(
+                "SOBRE",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),

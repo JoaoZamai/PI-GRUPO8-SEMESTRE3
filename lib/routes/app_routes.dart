@@ -7,5 +7,6 @@ abstract class AppRoutes {
   static const String MachineSettings =
       '/mchsettings'; // nao sabemos ainda se vamos dar continuidade nesta tela
   static const String settings = '/settings';
-  static const String profile = '/profile';
+  static const String sobre = '/sobre';
+  static const String user = '/user';
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class SobreScreen extends StatelessWidget {
+  const SobreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'CONFIGURAÇÕES',
+                          'SOBRE:',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -59,34 +59,19 @@ class SettingsScreen extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 40),
 
-                    // Botão CONEXÕES
-                    _settingsButton(
-                      label: 'CONEXÕES',
-                      onTap: () {
-                        // TODO: navegar para tela de conexões
-                      },
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // Botão SUPORTE
-                    _settingsButton(
-                      label: 'SUPORTE',
-                      onTap: () {
-                        // TODO: navegar para tela de suporte
-                      },
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // Botão REINICIAR APLICATIVO
-                    _settingsButton(
-                      label: 'REINICIAR APLICATIVO',
-                      onTap: () {
-                        // TODO: lógica de reiniciar aplicativo
-                      },
+                    // Texto descritivo centralizado
+                    const Center(
+                      child: Text(
+                        'Protótipo de interface\ngráfica para o aplicativo,\nhaverá alterações.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black87,
+                          height: 1.6,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -96,33 +81,6 @@ class SettingsScreen extends StatelessWidget {
             // ── Rodapé preto (padrão do projeto) ───────────────────────
             Container(height: 30, color: Colors.black),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _settingsButton({
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        side: const BorderSide(color: Colors.black87, width: 1.5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        elevation: 0,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
         ),
       ),
     );
