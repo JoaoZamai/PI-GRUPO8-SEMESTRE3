@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firabase_data/maquina.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late final Future<String?> _nomeMaquinaFuture;
+  late final Future<bool?> _estadoMaquinaFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _nomeMaquinaFuture = lerNomeMaquina();
+    _estadoMaquinaFuture = lerEstadoMaquina();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,16 +100,48 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Máquina de Corte:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const Text("OPERANDO", style: TextStyle(fontSize: 11)),
-                  const SizedBox(height: 10),
+                  FutureBuilder<String?>(
+                    future: _nomeMaquinaFuture,
+                    builder: (context, snapshot) {
+                      String textoNome = 'Nome da Máquina: ';
 
-                  const Text(
-                    "ESP32: CONECTADO",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        textoNome += 'Carregando...';
+                      } else if (snapshot.hasError) {
+                        textoNome += 'Erro ao carregar';
+                      } else if (snapshot.hasData &&
+                          snapshot.data!.isNotEmpty) {
+                        textoNome += snapshot.data!;
+                      } else {
+                        textoNome += 'Indisponível';
+                      }
+
+                      return Text(
+                        textoNome,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      );
+                    },
+                  ),
+                  FutureBuilder<bool?>(
+                    future: _estadoMaquinaFuture,
+                    builder: (context, snapshot) {
+                      String estadoTexto = 'Estado: ';
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        estadoTexto += 'Carregando...';
+                      } else if (snapshot.hasError) {
+                        estadoTexto += 'Erro ao carregar';
+                      } else if (snapshot.hasData) {
+                        estadoTexto += snapshot.data! ? 'OPERANDO' : 'PARADO';
+                      } else {
+                        estadoTexto += 'Indisponível';
+                      }
+
+                      return Text(
+                        estadoTexto,
+                        style: const TextStyle(fontSize: 11),
+                      );
+                    },
                   ),
 
                   const SizedBox(height: 12),

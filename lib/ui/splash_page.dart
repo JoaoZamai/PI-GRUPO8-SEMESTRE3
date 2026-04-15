@@ -28,27 +28,23 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Spacer(), 
+            const Spacer(),
 
-            
             Center(
               child: Column(
                 children: [
                   Image.asset("lib/assets/maquina.png", height: 250),
                   const SizedBox(height: 20),
                   Image.asset("lib/assets/pbtexto.png", height: 40),
-                ]
+                ],
               ),
             ),
 
-            const Spacer(), 
+            const Spacer(),
 
-            
             const Padding(
               padding: EdgeInsets.only(bottom: 30),
-              child: CircularProgressIndicator(
-                color: Colors.white, 
-              ),
+              child: CircularProgressIndicator(color: Colors.white),
             ),
           ],
         ),
