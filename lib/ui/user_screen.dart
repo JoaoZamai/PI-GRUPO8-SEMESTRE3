@@ -1,3 +1,4 @@
+import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class UserScreen extends StatelessWidget {
@@ -127,6 +128,38 @@ class UserScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+
+                    SizedBox(height: 25,),
+
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepOrange,
+                            foregroundColor: Colors.white,
+                            fixedSize: const Size(182, 45),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.alterar);
+                          },
+                          child: const Text("Alterar Cadastro"),
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepOrange,
+                            foregroundColor: Colors.white,
+                            fixedSize: const Size(182, 45),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.login);
+                          },
+                          child: const Text("Sair"),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
