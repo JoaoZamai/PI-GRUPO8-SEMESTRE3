@@ -10,4 +10,6 @@ abstract class AppRoutes {
   static const String sobre = '/sobre';
   static const String user = '/user';
   static const String alterar = '/alterar';
+  static const String sensores = '/sensor-list';
+  static const String cadsensores = '/CadastroSensor';
 }

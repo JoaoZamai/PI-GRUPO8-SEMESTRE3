@@ -1,3 +1,4 @@
+import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -65,7 +66,7 @@ class SettingsScreen extends StatelessWidget {
                     _settingsButton(
                       label: 'CONEXÕES',
                       onTap: () {
-                        // TODO: navegar para tela de conexões
+                        Navigator.pushNamed(context, AppRoutes.sensores);
                       },
                     ),
 

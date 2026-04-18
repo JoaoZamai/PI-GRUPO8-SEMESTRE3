@@ -203,7 +203,7 @@ class _AlterarScreenState extends State<AlterarScreen> {
                                               );
                                             } else {
                                               ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text("Usuário cadastrado com sucesso!")),
+                                                const SnackBar(content: Text("Usuário alterado com sucesso!")),
                                               );
 
                                               Navigator.pushNamed(context, AppRoutes.home);
