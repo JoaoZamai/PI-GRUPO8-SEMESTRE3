@@ -1,17 +1,29 @@
+import 'package:PIGRUPO8SEMESTRE3main/models/sensormodel.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/cadSensor_viewmodel.dart';
 
-class CadSensorScreen extends StatefulWidget {
-  const CadSensorScreen({super.key});
+class AltSensorScreen extends StatefulWidget {
+  const AltSensorScreen({super.key});
 
   @override
-  State<CadSensorScreen> createState() => _CadSensorScreenState();
+  State<AltSensorScreen> createState() => _AltSensorScreenState();
 }
 
-class _CadSensorScreenState extends State<CadSensorScreen> {
+class _AltSensorScreenState extends State<AltSensorScreen> {
   late final CadSensorViewmodel viewModel;
   
+  late SensorModel sensor;
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    sensor = ModalRoute.of(context)!.settings.arguments as SensorModel;
+
+    viewModel.nomeController.text = sensor.name;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -107,7 +119,7 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                     alignment: Alignment.bottomRight,
                                     children: [
                                       Icon(Icons.memory, size: 50),
-                                      Icon(Icons.add, size: 20),
+                                      Icon(Icons.edit, size: 20),
                                     ],
                                   ),
                                   
@@ -133,7 +145,7 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                         SizedBox(height: 20,),
                                         
                                         DropdownButtonFormField<String>(
-                                          initialValue: "Ativo",
+                                          initialValue: sensor.operando,
                                           items: const [
                                             DropdownMenuItem(
                                               value: "Ativo",
@@ -169,7 +181,7 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
 
                                         ElevatedButton(
                                           onPressed: viewModel.isLoading ? null : () async {
-                                            final error = await viewModel.register();
+                                            final error = await viewModel.alterar(sensor.id);
 
                                             if (error == "form_error") return;
 
@@ -179,7 +191,7 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                               );
                                             } else {
                                               ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text("Sensor cadastrado com sucesso!")),
+                                                const SnackBar(content: Text("Sensor alterado com sucesso!")),
                                               );
 
                                               Navigator.pushNamed(context, AppRoutes.sensores);
@@ -204,7 +216,7 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                                   ),
                                                 )
                                               : const Text(
-                                                  "Cadastrar",
+                                                  "Alterar",
                                                   style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white,

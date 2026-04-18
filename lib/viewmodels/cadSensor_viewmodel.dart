@@ -20,13 +20,6 @@ class CadSensorViewmodel extends ChangeNotifier {
     ])(value);
   }
 
-  String? emailValidator(String? value) {
-    return Validatorless.multiple([
-      Validatorless.required('Email é obrigatório'),
-      Validatorless.email('Digite um email válido'),
-    ])(value);
-  }
-
   Future<String?> register() async {
     if (!formKey.currentState!.validate()) {
       return "form_error";
@@ -35,7 +28,7 @@ class CadSensorViewmodel extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    if(status == "ativo")
+    if(status == "Ativo")
     {
       statusfire = true;
     }
@@ -74,6 +67,46 @@ class CadSensorViewmodel extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       return "Erro ao cadastrar sensor";
+    }
+  }
+
+  Future<String?> alterar(String id) async {
+    if (!formKey.currentState!.validate()) {
+      return "form_error";
+    }
+
+    isLoading = true;
+    notifyListeners();
+
+    if(status == "Ativo")
+    {
+      statusfire = true;
+    }
+    else
+    {
+      statusfire = false;
+    }
+
+    try {
+      final nome = nomeController.text.trim();
+
+      //altera Firestore
+      await FirebaseFirestore.instance
+          .collection('Sensor')
+          .doc(id)
+          .update({
+        'NomeSensor': nomeController.text.trim(),
+        'Operando': statusfire,
+      });
+
+      isLoading = false;
+      notifyListeners();
+
+      return null; // sucesso
+    } catch (e) {
+      isLoading = false;
+      notifyListeners();
+      return "Erro ao alterar sensor";
     }
   }
 }

@@ -38,6 +38,8 @@ dependencies:
   cloud_firestore: ^6.2.0
   crypto: ^3.0.7
   firebase_core: ^4.6.0
+  restart_app: ^1.7.3
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:PIGRUPO8SEMESTRE3main/ui/CadastroSensor_screen.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/altSensor_screen.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/maquina_screen.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/sensor_list_page.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/settings_screen.dart';
@@ -25,5 +26,6 @@ abstract class AppPages {
     AppRoutes.alterar: (_) => const AlterarScreen(),
     AppRoutes.sensores: (_) => const SensorListPage(),
     AppRoutes.cadsensores: (_) => const CadSensorScreen(),
+    AppRoutes.altsensores: (_) => const AltSensorScreen(),
   };
 }

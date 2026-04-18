@@ -60,7 +60,7 @@ class _SensorListPageState extends State<SensorListPage> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: GestureDetector(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
                         child: Image.asset(
                             'lib/assets/voltar.png',
                           width: 30,
@@ -178,7 +178,9 @@ class _SensorListPageState extends State<SensorListPage> {
                                       child: Icon(Icons.add_link, color: Colors.black)
                                     ),
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        viewModel.onSensorPressed(context, sensor);
+                                      },
                                       child: Icon(Icons.edit, color: Colors.black)
                                     ),
                                   ]

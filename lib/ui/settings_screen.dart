@@ -1,7 +1,19 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:restart_app/restart_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatelessWidget {
+  Future<void> irParaPackbag() async {
+    final Uri url = Uri.parse('https://packbag.com.br/contato/');
+    
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }else {
+      throw Exception('Não foi possível abrir $url');
+    }
+  }
+  
   const SettingsScreen({super.key});
 
   @override
@@ -48,7 +60,7 @@ class SettingsScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: GestureDetector(
-                            onTap: () => Navigator.pop(context),
+                            onTap: () => Navigator.pushNamed(context, AppRoutes.home),
                             child: Image.asset(
                               'lib/assets/voltar.png',
                               width: 30,
@@ -76,7 +88,7 @@ class SettingsScreen extends StatelessWidget {
                     _settingsButton(
                       label: 'SUPORTE',
                       onTap: () {
-                        // TODO: navegar para tela de suporte
+                        irParaPackbag();
                       },
                     ),
 
@@ -86,7 +98,7 @@ class SettingsScreen extends StatelessWidget {
                     _settingsButton(
                       label: 'REINICIAR APLICATIVO',
                       onTap: () {
-                        // TODO: lógica de reiniciar aplicativo
+                        Restart.restartApp();
                       },
                     ),
                   ],

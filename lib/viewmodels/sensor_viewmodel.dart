@@ -1,4 +1,5 @@
 import 'package:PIGRUPO8SEMESTRE3main/models/sensormodel.dart';
+import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -27,7 +28,7 @@ class SensorViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onProductPressed(BuildContext context, SensorModel sensor) {
-    
+  void onSensorPressed(BuildContext context, SensorModel sensor) {
+    Navigator.pushNamed(context, AppRoutes.altsensores, arguments: sensor);
   }
 }
