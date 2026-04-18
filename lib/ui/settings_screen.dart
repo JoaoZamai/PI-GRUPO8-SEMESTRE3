@@ -6,14 +6,14 @@ import 'package:url_launcher/url_launcher.dart';
 class SettingsScreen extends StatelessWidget {
   Future<void> irParaPackbag() async {
     final Uri url = Uri.parse('https://packbag.com.br/contato/');
-    
+
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
-    }else {
+    } else {
       throw Exception('Não foi possível abrir $url');
     }
   }
-  
+
   const SettingsScreen({super.key});
 
   @override
@@ -23,14 +23,12 @@ class SettingsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header (padrão do projeto) ──────────────────────────────
             Container(
               padding: const EdgeInsets.all(10),
               color: Colors.grey,
               child: Row(
-                children: [
-                  Image.asset('lib/assets/pblogo.png', height: 40),
-                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Image.asset('lib/assets/pblogo.png', height: 40)],
               ),
             ),
 
@@ -60,7 +58,8 @@ class SettingsScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: GestureDetector(
-                            onTap: () => Navigator.pushNamed(context, AppRoutes.home),
+                            onTap: () =>
+                                Navigator.pushNamed(context, AppRoutes.home),
                             child: Image.asset(
                               'lib/assets/voltar.png',
                               width: 30,
@@ -114,19 +113,14 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _settingsButton({
-    required String label,
-    required VoidCallback onTap,
-  }) {
+  Widget _settingsButton({required String label, required VoidCallback onTap}) {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         side: const BorderSide(color: Colors.black87, width: 1.5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(vertical: 16),
         elevation: 0,
       ),

@@ -1,4 +1,5 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
 import 'package:flutter/material.dart';
 
 class UserScreen extends StatelessWidget {
@@ -16,9 +17,7 @@ class UserScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               color: Colors.grey,
               child: Row(
-                children: [
-                  Image.asset('lib/assets/pblogo.png', height: 40),
-                ],
+                children: [Image.asset('lib/assets/pblogo.png', height: 40)],
               ),
             ),
 
@@ -129,7 +128,7 @@ class UserScreen extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: 25,),
+                    SizedBox(height: 25),
 
                     Row(
                       children: [
@@ -153,13 +152,18 @@ class UserScreen extends StatelessWidget {
                             foregroundColor: Colors.white,
                             fixedSize: const Size(182, 45),
                           ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.login);
+                          onPressed: () async {
+                            await authService.value.signOut();
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              AppRoutes.login,
+                              (route) => false,
+                            );
                           },
                           child: const Text("Sair"),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

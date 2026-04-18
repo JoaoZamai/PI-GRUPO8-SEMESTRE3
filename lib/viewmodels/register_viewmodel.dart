@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
 
 class RegisterViewmodel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -54,10 +54,6 @@ class RegisterViewmodel extends ChangeNotifier {
     notifyListeners();
   }
 
-  String hashSenha(String senha) {
-    return sha256.convert(utf8.encode(senha)).toString();
-  }
-
   Future<String?> register() async {
     if (!formKey.currentState!.validate()) {
       return "form_error";
@@ -67,32 +63,41 @@ class RegisterViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
+      final nome = nomeController.text.trim();
       final email = emailController.text.trim();
+      final password = passwordController.text;
 
-      //verifica email
-      final result = await FirebaseFirestore.instance
-          .collection('usuarios')
-          .where('email', isEqualTo: email)
-          .get();
+      final credential = await authService.value.createAccount(
+        email: email,
+        password: password,
+      );
 
-      if (result.docs.isNotEmpty) {
-        isLoading = false;
-        notifyListeners();
-        return "Email já cadastrado";
+      final uid = credential.user?.uid;
+      if (uid != null) {
+        await FirebaseFirestore.instance.collection('usuarios').doc(uid).set({
+          'nome': nome,
+          'email': email,
+          'uid': uid,
+        });
       }
-
-      //salva Firestore
-      await FirebaseFirestore.instance.collection('usuarios').add({
-        'nome': nomeController.text.trim(),
-        'email': email,
-        'senha': hashSenha(passwordController.text),
-      });
 
       isLoading = false;
       notifyListeners();
-
       return null; // sucesso
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      isLoading = false;
+      notifyListeners();
+
+      if (e.code == 'email-already-in-use') {
+        return "Email já cadastrado";
+      } else if (e.code == 'invalid-email') {
+        return "Email inválido";
+      } else if (e.code == 'weak-password') {
+        return "Senha muito fraca";
+      }
+
+      return "Erro ao cadastrar usuário";
+    } catch (_) {
       isLoading = false;
       notifyListeners();
       return "Erro ao cadastrar usuário";
