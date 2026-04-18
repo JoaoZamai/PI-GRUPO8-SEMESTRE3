@@ -9,4 +9,5 @@ abstract class AppRoutes {
   static const String settings = '/settings';
   static const String sobre = '/sobre';
   static const String user = '/user';
+  static const String alterar = '/alterar';
 }

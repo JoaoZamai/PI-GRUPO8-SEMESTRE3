@@ -8,6 +8,7 @@ import 'package:PIGRUPO8SEMESTRE3main/ui/splash_page.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/home_screen.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/user_screen.dart';
 import 'package:PIGRUPO8SEMESTRE3main/ui/sobre_screen.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/alterar_screen.dart';
 
 abstract class AppPages {
   static Map<String, WidgetBuilder> get routes => {
@@ -19,5 +20,6 @@ abstract class AppPages {
     AppRoutes.settings: (_) => const SettingsScreen(),
     AppRoutes.sobre: (_) => const SobreScreen(),
     AppRoutes.user: (_) => const UserScreen(),
+    AppRoutes.alterar: (_) => const AlterarScreen(),
   };
 }
