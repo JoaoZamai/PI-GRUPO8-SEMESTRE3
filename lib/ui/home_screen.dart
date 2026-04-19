@@ -137,10 +137,19 @@ class _HomePageState extends State<HomePage> {
                         estadoTexto += 'Indisponível';
                       }
 
-                      return Text(
-                        estadoTexto,
-                        style: const TextStyle(fontSize: 11),
-                      );
+                      return Row(children: [
+                        Icon(
+                          Icons.circle, 
+                          size: 15, 
+                          color: snapshot.data == false
+                            ? Colors.red
+                            : Colors.green,
+                        ),
+                        Text(
+                          estadoTexto,
+                          style: const TextStyle(fontSize: 11),
+                        )
+                      ]);
                     },
                   ),
 

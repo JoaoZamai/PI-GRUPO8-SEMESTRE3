@@ -174,7 +174,9 @@ class _SensorListPageState extends State<SensorListPage> {
                                 Column(
                                   children: [
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        viewModel.linkarSensor(context, sensor);
+                                      },
                                       child: Icon(Icons.add_link, color: Colors.black)
                                     ),
                                     ElevatedButton(

@@ -1,9 +1,28 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firabase_data/user.dart';
 
-class UserScreen extends StatelessWidget {
+class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
+
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  late final UsuarioViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = UsuarioViewModel();
+
+    viewModel.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +114,13 @@ class UserScreen extends StatelessWidget {
                           const SizedBox(width: 16),
 
                           // Dados do usuário
-                          const Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'FUNCIONÁRIO X',
+                                viewModel.usuario.isNotEmpty
+                                  ? viewModel.usuario.first.nome
+                                  : 'Carregando...',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -108,7 +129,9 @@ class UserScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'OPERADOR',
+                                viewModel.usuario.isNotEmpty
+                                  ? viewModel.usuario.first.email
+                                  : '',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black54,
@@ -116,7 +139,9 @@ class UserScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                '01/20/1999',
+                                viewModel.nomeSensor.isNotEmpty
+                                  ? viewModel.nomeSensor
+                                  : '',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black54,

@@ -77,6 +77,7 @@ class RegisterViewmodel extends ChangeNotifier {
         await FirebaseFirestore.instance.collection('usuarios').doc(uid).set({
           'nome': nome,
           'email': email,
+          'idSensor': '',
           'uid': uid,
         });
       }
