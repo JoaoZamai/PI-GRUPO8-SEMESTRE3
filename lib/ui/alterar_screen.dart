@@ -1,3 +1,4 @@
+import 'package:PIGRUPO8SEMESTRE3main/models/usuariomodel.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/register_viewmodel.dart';
@@ -12,12 +13,23 @@ class AlterarScreen extends StatefulWidget {
 class _AlterarScreenState extends State<AlterarScreen> {
   late final RegisterViewmodel viewModel;
   
+  late UsuarioModel usuario;
+
   @override
   void initState() {
     super.initState();
     viewModel = RegisterViewmodel();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    usuario = ModalRoute.of(context)!.settings.arguments as UsuarioModel;
+
+    viewModel.nomeController.text = usuario.nome;
+    viewModel.emailController.text = usuario.email;
+  }
   @override
   void dispose() {
     viewModel.dispose();
@@ -101,6 +113,8 @@ class _AlterarScreenState extends State<AlterarScreen> {
                               padding: EdgeInsets.all(20),
                               child: Column(
                                 children: [
+                                  const SizedBox(height: 80,),
+
                                   Stack(
                                     alignment: Alignment.bottomRight,
                                     children: [
@@ -109,7 +123,7 @@ class _AlterarScreenState extends State<AlterarScreen> {
                                     ],
                                   ),
                                   
-                                  SizedBox(height: 30,),
+                                  const SizedBox(height: 30,),
                                   
                                   Form(
                                     key: viewModel.formKey,
@@ -128,7 +142,7 @@ class _AlterarScreenState extends State<AlterarScreen> {
                                           ),
                                         ),
 
-                                        SizedBox(height: 20,),
+                                        const SizedBox(height: 20,),
 
                                         TextFormField(
                                           controller: viewModel.nomeController,
@@ -143,7 +157,7 @@ class _AlterarScreenState extends State<AlterarScreen> {
                                           ),
                                         ),
 
-                                        SizedBox(height: 20,),
+                                        const SizedBox(height: 20,),
 
                                         TextFormField(
                                           controller: viewModel.passwordController,
@@ -165,35 +179,12 @@ class _AlterarScreenState extends State<AlterarScreen> {
                                             fillColor: Colors.white
                                           ),
                                         ),
-
-                                        SizedBox(height: 20,),
-
-                                        TextFormField(
-                                          controller: viewModel.confirmController,
-                                          obscureText: viewModel.obscurePassword,
-                                          validator: viewModel.confirmValidator,
-                                          decoration: InputDecoration(
-                                            labelText: "Confirmar Senha",
-                                            border: OutlineInputBorder(),
-                                            prefixIcon: Icon(Icons.lock_outlined),
-                                            suffixIcon: IconButton(
-                                              onPressed: viewModel.toggleConfirmVisibility,
-                                              icon: Icon(
-                                                viewModel.obscureConfirm
-                                                    ? Icons.visibility
-                                                    : Icons.visibility_off,
-                                              ),
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.white
-                                          ),
-                                        ),
                                         
-                                        SizedBox(height: 30,),
+                                        const SizedBox(height: 30,),
 
                                         ElevatedButton(
                                           onPressed: viewModel.isLoading ? null : () async {
-                                            final error = await viewModel.register();
+                                            final error = await viewModel.alterar(usuario.email);
 
                                             if (error == "form_error") return;
 

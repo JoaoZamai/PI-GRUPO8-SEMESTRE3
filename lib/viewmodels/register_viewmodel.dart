@@ -104,4 +104,60 @@ class RegisterViewmodel extends ChangeNotifier {
       return "Erro ao cadastrar usuário";
     }
   }
+
+  Future<String?> alterar(String oldEmail) async {
+    if (!formKey.currentState!.validate()) {
+      return "form_error";
+    }
+
+    isLoading = true;
+    notifyListeners();
+    
+    
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if(user == null){
+        return "Usuário não autenticado";
+      }
+      
+      final password = passwordController.text;
+      final nome = nomeController.text.trim()!;
+      final email = emailController.text.trim();  
+
+      final cred = EmailAuthProvider.credential(
+        email: oldEmail,
+        password: password
+      );
+
+      await user.reauthenticateWithCredential(cred);
+
+      if(email != oldEmail)
+      {
+        await user.verifyBeforeUpdateEmail(email);
+      }
+      
+      await FirebaseFirestore.instance.collection('usuarios').doc(user.uid).update({
+        'nome': nomeController.text.trim(),
+        'email': emailController.text.trim(),
+      });
+
+      isLoading = false;
+      notifyListeners();
+      return null; // sucesso
+    } on FirebaseAuthException catch (e) {
+      isLoading = false;
+      notifyListeners();
+
+      if (e.code == 'invalid-email') {
+        return "Email inválido";
+      }
+
+      return "Erro ao altear usuário";
+    } catch (_) {
+      isLoading = false;
+      notifyListeners();
+      return "Erro ao alterar usuário";
+    }
+  }
 }

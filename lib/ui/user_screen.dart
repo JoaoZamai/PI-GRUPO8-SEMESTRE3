@@ -164,7 +164,7 @@ class _UserScreenState extends State<UserScreen> {
                             fixedSize: const Size(182, 45),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.alterar);
+                            Navigator.pushNamed(context, AppRoutes.alterar, arguments: viewModel.usuario.first);
                           },
                           child: const Text("Alterar Cadastro"),
                         ),

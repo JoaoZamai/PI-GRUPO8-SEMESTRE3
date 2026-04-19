@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                           snapshot.data!.isNotEmpty) {
                         textoNome += snapshot.data!;
                       } else {
-                        textoNome += 'Indisponível';
+                        textoNome += 'Usuário precisa selecionar um dispositivo';
                       }
 
                       return Text(

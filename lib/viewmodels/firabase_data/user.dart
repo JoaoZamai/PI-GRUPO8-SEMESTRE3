@@ -22,7 +22,6 @@ class UsuarioViewModel extends ChangeNotifier {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      print("Usuário não está logado");
       return;
     }
 
@@ -36,10 +35,15 @@ class UsuarioViewModel extends ChangeNotifier {
       _usuario.add(
         UsuarioModel.fromMap(snapshot.id, snapshot.data()!),
       );
+      if(snapshot.data()?['idSensor'] != '')
+      {
+        final sensorDoc = await _firestore.collection('Sensor').doc(snapshot.data()?['idSensor']).get();
 
-      final sensorDoc = await _firestore.collection('Sensor').doc(snapshot.data()?['idSensor']).get();
-
-      nomeSensor = sensorDoc.data()?['NomeSensor'] ?? '';
+        nomeSensor = sensorDoc.data()?['NomeSensor'] ?? '';
+      }
+      else{
+        nomeSensor = 'Usuario precisa vincular conexão';
+      }
     }
 
     notifyListeners();
