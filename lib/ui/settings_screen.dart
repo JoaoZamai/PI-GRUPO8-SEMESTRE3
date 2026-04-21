@@ -1,9 +1,17 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> irParaPackbag() async {
     final Uri url = Uri.parse('https://packbag.com.br/contato/');
 
@@ -14,21 +22,44 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
-  const SettingsScreen({super.key});
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.branco,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: AppColors.cinza,
+        iconTheme: IconThemeData(
+          color: AppColors.preto,
+        ),
         centerTitle: true,
         title: Image.asset(
-          'lib/assets/pblogo.png',
+          AppColors.logo,
+          key: ValueKey(AppColors.logo),
           width: 160,
           height: 80,
           fit: BoxFit.contain,
         ),
+        actions: [
+          ElevatedButton(
+            onPressed: (){
+              setState(() {
+                AppColors.mudarContraste();
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10),
+              backgroundColor: AppColors.cinzaClaro,
+            ), 
+            child: 
+              Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+          ),
+        ]
       ),
       body: SafeArea(
         child: Column(
@@ -43,12 +74,12 @@ class SettingsScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'CONFIGURAÇÕES',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.preto,
                           ),
                         ),
                       ],
@@ -57,7 +88,7 @@ class SettingsScreen extends StatelessWidget {
 
                     // Botão CONEXÕES
                     _settingsButton(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: AppColors.cinza,
                       label: 'CONEXÕES',
                       onTap: () {
                         Navigator.pushNamed(context, AppRoutes.sensores);
@@ -68,7 +99,7 @@ class SettingsScreen extends StatelessWidget {
 
                     // Botão SUPORTE
                     _settingsButton(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: AppColors.cinza,
                       label: 'SUPORTE',
                       onTap: () {
                         irParaPackbag();
@@ -79,7 +110,7 @@ class SettingsScreen extends StatelessWidget {
 
                     // Botão REINICIAR APLICATIVO
                     _settingsButton(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: AppColors.cinza,
                       label: 'REINICIAR APLICATIVO',
                       onTap: () {
                         Restart.restartApp();
@@ -90,7 +121,7 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
 
-            Container(height: 30, color: Colors.black),
+            Container(height: 30, color: AppColors.preto),
           ],
         ),
       ),
@@ -100,24 +131,30 @@ class SettingsScreen extends StatelessWidget {
   Widget _settingsButton({
     required String label,
     required VoidCallback onTap,
-    required MaterialColor backgroundColor,
+    required Color backgroundColor,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: Colors.grey.shade400,
+          color: AppColors.cinza,
           borderRadius: BorderRadius.circular(8),
+          border: AppColors.contraste
+                                ? Border.all(
+                                    color: AppColors.preto,
+                                    width: 2,
+                                  )
+                                : null,
         ),
         child: Text(
           label,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
-            color: Colors.black,
+            color: AppColors.preto,
           ),
         ),
       ),

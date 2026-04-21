@@ -1,3 +1,4 @@
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firebase_data/maquina.dart';
@@ -23,16 +24,36 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.branco,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: AppColors.cinza,
+        iconTheme: IconThemeData(
+          color: AppColors.preto,
+        ),
         centerTitle: true,
         title: Image.asset(
-          'lib/assets/pblogo.png',
+          AppColors.logo,
+          key: ValueKey(AppColors.logo),
           width: 160,
           height: 80,
           fit: BoxFit.contain,
         ),
+        actions: [
+          ElevatedButton(
+            onPressed: (){
+              setState(() {
+                AppColors.mudarContraste();
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10),
+              backgroundColor: AppColors.cinzaClaro,
+            ), 
+            child: 
+              Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+          ),
+        ]
       ),
 
       body: SingleChildScrollView(
@@ -43,27 +64,27 @@ class _HomePageState extends State<HomePage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey.shade400,
+                color: AppColors.cinza,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: AppColors.pretoClaro,
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Column(
-                children: const [
+                children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Visualização Inteligente",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.preto),
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.lightbulb, color: Colors.amber),
+                      Icon(Icons.lightbulb, color: AppColors.laranja),
                     ],
                   ),
                   SizedBox(height: 12),
@@ -72,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                     "Receba estimativas e previsões de produção.\n\n"
                     "Verifique o estado do dispositivo se está ativo ou não.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 13, color: AppColors.preto),
                   ),
                 ],
               ),
@@ -80,7 +101,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 20),
 
-            const Icon(Icons.arrow_downward, size: 28),
+            Icon(Icons.arrow_downward, size: 28, color: AppColors.preto),
 
             const SizedBox(height: 20),
 
@@ -88,11 +109,11 @@ class _HomePageState extends State<HomePage> {
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: AppColors.cinzaClaro,
                 borderRadius: BorderRadius.circular(16),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: AppColors.pretoClaro,
                     blurRadius: 6,
                     offset: Offset(0, 3),
                   ),
@@ -121,7 +142,7 @@ class _HomePageState extends State<HomePage> {
 
                       return Text(
                         textoNome,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.preto),
                       );
                     },
                   ),
@@ -151,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             estadoTexto,
-                            style: const TextStyle(fontSize: 11),
+                            style: TextStyle(fontSize: 11, color: AppColors.preto),
                           ),
                         ],
                       );
@@ -163,11 +184,11 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.memory, size: 40),
+                      Icon(Icons.memory, size: 40, color: AppColors.preto),
 
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
+                          backgroundColor: AppColors.preto,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -175,11 +196,11 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.pushNamed(context, AppRoutes.machine);
                         },
-                        child: const Text(
+                        child: Text(
                           "VISUALIZAR",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: AppColors.branco,
                           ),
                         ),
                       ),
@@ -195,18 +216,24 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 90,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: AppColors.cinzaClaro,
                 borderRadius: BorderRadius.circular(16),
+                border: AppColors.contraste
+                                ? Border.all(
+                                    color: AppColors.preto,
+                                    width: 2,
+                                  )
+                                : null,
               ),
-              child: const Center(
+              child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add, size: 28),
+                    Icon(Icons.add, size: 28, color: AppColors.preto),
                     SizedBox(width: 8),
                     Text(
                       "OUTROS DISPOSITIVOS",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.preto),
                     ),
                   ],
                 ),
@@ -233,7 +260,7 @@ class _HomePageState extends State<HomePage> {
             /// SOBRE
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
+                backgroundColor: AppColors.preto,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -241,11 +268,11 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.pushNamed(context, AppRoutes.sobre);
               },
-              child: const Text(
+              child: Text(
                 "SOBRE",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.branco,
                 ),
               ),
             ),
@@ -266,21 +293,27 @@ class _HomePageState extends State<HomePage> {
         margin: const EdgeInsets.symmetric(horizontal: 4),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey.shade300,
+            backgroundColor: AppColors.cinzaClaro,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
             ),
             padding: const EdgeInsets.symmetric(vertical: 16),
+            side: AppColors.contraste
+            ? BorderSide(
+                color: AppColors.preto,
+                width: 2,
+              )
+            : BorderSide.none,
           ),
           onPressed: onPressed,
           child: Column(
             children: [
-              Icon(icon, color: Colors.black),
+              Icon(icon, color: AppColors.preto),
               const SizedBox(height: 5),
               Text(
                 text,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.black, fontSize: 16),
+                style: TextStyle(color: AppColors.preto, fontSize: 16),
               ),
             ],
           ),
