@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
-import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firabase_data/maquina.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firebase_data/maquina.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.grey,
         centerTitle: true,
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: Colors.grey.shade400,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
@@ -97,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -113,7 +115,8 @@ class _HomePageState extends State<HomePage> {
                           snapshot.data!.isNotEmpty) {
                         textoNome += snapshot.data!;
                       } else {
-                        textoNome += 'Usuário precisa selecionar um dispositivo';
+                        textoNome +=
+                            'Usuário precisa selecionar um dispositivo';
                       }
 
                       return Text(
@@ -137,19 +140,21 @@ class _HomePageState extends State<HomePage> {
                         estadoTexto += 'Indisponível';
                       }
 
-                      return Row(children: [
-                        Icon(
-                          Icons.circle, 
-                          size: 15, 
-                          color: snapshot.data == false
-                            ? Colors.red
-                            : Colors.green,
-                        ),
-                        Text(
-                          estadoTexto,
-                          style: const TextStyle(fontSize: 11),
-                        )
-                      ]);
+                      return Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            size: 15,
+                            color: snapshot.data == false
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                          Text(
+                            estadoTexto,
+                            style: const TextStyle(fontSize: 11),
+                          ),
+                        ],
+                      );
                     },
                   ),
 
@@ -250,6 +255,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Reponsável por generalizar os botões inferiores (eu acredito)
   static Widget _bottomButton(
     IconData icon,
     String text,
@@ -268,7 +274,15 @@ class _HomePageState extends State<HomePage> {
           ),
           onPressed: onPressed,
           child: Column(
-            children: [Icon(icon), const SizedBox(height: 5), Text(text)],
+            children: [
+              Icon(icon, color: Colors.black),
+              const SizedBox(height: 5),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.black, fontSize: 16),
+              ),
+            ],
           ),
         ),
       ),

@@ -12,9 +12,9 @@ class AltSensorScreen extends StatefulWidget {
 
 class _AltSensorScreenState extends State<AltSensorScreen> {
   late final CadSensorViewmodel viewModel;
-  
+
   late SensorModel sensor;
-  
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -39,27 +39,14 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: viewModel, 
-      builder: (_, __){
+      animation: viewModel,
+      builder: (_, __) {
         return Scaffold(
           backgroundColor: Colors.white,
+          appBar: AppBar(backgroundColor: Colors.grey, elevation: 0),
           body: SafeArea(
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  color: Colors.grey,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "lib/assets/pblogo.png",
-                        height: 40,
-                        fit: BoxFit.contain,
-                      ),
-                    ],
-                  ),
-                ),
-
                 SizedBox(height: 15),
 
                 Expanded(
@@ -69,7 +56,9 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                       children: [
                         // botão voltar
                         Padding(
-                          padding: const EdgeInsets.only(left: 16), // ajusta aqui
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                          ), // ajusta aqui
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
@@ -79,7 +68,10 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(context, AppRoutes.sensores),
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.sensores,
+                                ),
                                 child: Image.asset(
                                   'lib/assets/voltar.png',
                                   width: 30,
@@ -113,7 +105,7 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                               padding: EdgeInsets.all(20),
                               child: Column(
                                 children: [
-                                  SizedBox(height: 125,),
+                                  SizedBox(height: 125),
 
                                   Stack(
                                     alignment: Alignment.bottomRight,
@@ -122,9 +114,9 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                                       Icon(Icons.edit, size: 20),
                                     ],
                                   ),
-                                  
-                                  SizedBox(height: 30,),
-                                  
+
+                                  SizedBox(height: 30),
+
                                   Form(
                                     key: viewModel.formKey,
                                     child: Column(
@@ -138,12 +130,12 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                                             border: OutlineInputBorder(),
                                             prefixIcon: Icon(Icons.add),
                                             filled: true,
-                                            fillColor: Colors.white
+                                            fillColor: Colors.white,
                                           ),
                                         ),
 
-                                        SizedBox(height: 20,),
-                                        
+                                        SizedBox(height: 20),
+
                                         DropdownButtonFormField<String>(
                                           initialValue: sensor.operando,
                                           items: const [
@@ -165,43 +157,67 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                                           decoration: const InputDecoration(
                                             labelText: "Status",
                                             border: OutlineInputBorder(),
-                                            prefixIcon: Icon(Icons.toggle_on_outlined),
+                                            prefixIcon: Icon(
+                                              Icons.toggle_on_outlined,
+                                            ),
                                             filled: true,
                                             fillColor: Colors.white,
                                           ),
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return "Selecione um status";
                                             }
                                             return null;
                                           },
                                         ),
-                                        
-                                        SizedBox(height: 30,),
+
+                                        SizedBox(height: 30),
 
                                         ElevatedButton(
-                                          onPressed: viewModel.isLoading ? null : () async {
-                                            final error = await viewModel.alterar(sensor.id);
+                                          onPressed: viewModel.isLoading
+                                              ? null
+                                              : () async {
+                                                  final error = await viewModel
+                                                      .alterar(sensor.id);
 
-                                            if (error == "form_error") return;
+                                                  if (error == "form_error")
+                                                    return;
 
-                                            if (error != null) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(content: Text(error)),
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text("Sensor alterado com sucesso!")),
-                                              );
+                                                  if (error != null) {
+                                                    ScaffoldMessenger.of(
+                                                      context,
+                                                    ).showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(error),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                      context,
+                                                    ).showSnackBar(
+                                                      const SnackBar(
+                                                        content: Text(
+                                                          "Sensor alterado com sucesso!",
+                                                        ),
+                                                      ),
+                                                    );
 
-                                              Navigator.pushNamed(context, AppRoutes.sensores);
-                                            }
-                                          },
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      AppRoutes.sensores,
+                                                    );
+                                                  }
+                                                },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.deepOrange,
-                                            minimumSize: const Size(150, 40), // width e height
+                                            minimumSize: const Size(
+                                              150,
+                                              40,
+                                            ), // width e height
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
                                             elevation: 10,
                                             shadowColor: Colors.black38,
@@ -210,10 +226,11 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                                               ? const SizedBox(
                                                   width: 22,
                                                   height: 22,
-                                                  child: CircularProgressIndicator(
-                                                    strokeWidth: 2,
-                                                    color: Colors.white,
-                                                  ),
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        color: Colors.white,
+                                                      ),
                                                 )
                                               : const Text(
                                                   "Alterar",
@@ -222,11 +239,11 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
-                                ]
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -241,7 +258,7 @@ class _AltSensorScreenState extends State<AltSensorScreen> {
             ),
           ),
         );
-      }
-    ); 
+      },
+    );
   }
 }

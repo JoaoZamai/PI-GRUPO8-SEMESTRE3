@@ -30,50 +30,28 @@ class _SensorListPageState extends State<SensorListPage> {
       animation: viewModel,
       builder: (_, _) {
         return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.grey,
+            centerTitle: true,
+            title: Image.asset(
+              'lib/assets/pblogo.png',
+              width: 160,
+              height: 80,
+              fit: BoxFit.contain,
+            ),
+          ),
           body: SafeArea(
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  color: Colors.grey,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "lib/assets/pblogo.png",
-                        height: 40,
-                        fit: BoxFit.contain,
-                      ),
-                    ],
-                  ),
-                ),
-
                 SizedBox(height: 20),
 
-                Padding(
-                  padding: const EdgeInsets.only(left: 16), // ajusta aqui
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
-                        child: Image.asset(
-                            'lib/assets/voltar.png',
-                          width: 30,
-                          height: 30,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
                 Card(
-                  margin: const EdgeInsets.only(bottom: 16),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  color: Colors.grey.shade100,
                   child: InkWell(
                     child: Padding(
                       padding: const EdgeInsets.all(12),
@@ -88,7 +66,7 @@ class _SensorListPageState extends State<SensorListPage> {
                             ),
                             child: const Icon(Icons.memory, size: 30),
                           ),
-                          const SizedBox(width: 12,),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +84,10 @@ class _SensorListPageState extends State<SensorListPage> {
                           const SizedBox(width: 8),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, AppRoutes.cadsensores);
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.cadsensores,
+                              );
                             },
                             child: const Icon(Icons.add, color: Colors.black),
                           ),
@@ -124,7 +105,11 @@ class _SensorListPageState extends State<SensorListPage> {
                       final sensor = viewModel.sensores[index];
 
                       return Card(
-                        margin: const EdgeInsets.only(bottom: 16),
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        color: Colors.grey.shade100,
                         child: InkWell(
                           child: Padding(
                             padding: const EdgeInsets.all(12),
@@ -142,7 +127,8 @@ class _SensorListPageState extends State<SensorListPage> {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         sensor.name,
@@ -155,15 +141,17 @@ class _SensorListPageState extends State<SensorListPage> {
                                       Row(
                                         children: [
                                           Icon(
-                                            Icons.circle, 
-                                            size: 15, 
+                                            Icons.circle,
+                                            size: 15,
                                             color: sensor.operando == 'Inativo'
-                                              ? Colors.red
-                                              : Colors.green,
+                                                ? Colors.red
+                                                : Colors.green,
                                           ),
                                           Text(
                                             sensor.operando,
-                                            style: const TextStyle(color: Colors.black54),
+                                            style: const TextStyle(
+                                              color: Colors.black54,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -177,16 +165,25 @@ class _SensorListPageState extends State<SensorListPage> {
                                       onPressed: () {
                                         viewModel.linkarSensor(context, sensor);
                                       },
-                                      child: Icon(Icons.add_link, color: Colors.black)
+                                      child: Icon(
+                                        Icons.add_link,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        viewModel.onSensorPressed(context, sensor);
+                                        viewModel.onSensorPressed(
+                                          context,
+                                          sensor,
+                                        );
                                       },
-                                      child: Icon(Icons.edit, color: Colors.black)
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ]
-                                )
+                                  ],
+                                ),
                               ],
                             ),
                           ),

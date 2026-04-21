@@ -20,28 +20,28 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.grey,
+        centerTitle: true,
+        title: Image.asset(
+          'lib/assets/pblogo.png',
+          width: 160,
+          height: 80,
+          fit: BoxFit.contain,
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.grey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Image.asset('lib/assets/pblogo.png', height: 40)],
-              ),
-            ),
-
-            // ── Conteúdo ────────────────────────────────────────────────
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Título + botão voltar
+                    // Título
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
                           'CONFIGURAÇÕES',
@@ -51,30 +51,13 @@ class SettingsScreen extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, AppRoutes.home),
-                            child: Image.asset(
-                              'lib/assets/voltar.png',
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
-
                     const SizedBox(height: 24),
 
                     // Botão CONEXÕES
                     _settingsButton(
+                      backgroundColor: Colors.grey,
                       label: 'CONEXÕES',
                       onTap: () {
                         Navigator.pushNamed(context, AppRoutes.sensores);
@@ -85,6 +68,7 @@ class SettingsScreen extends StatelessWidget {
 
                     // Botão SUPORTE
                     _settingsButton(
+                      backgroundColor: Colors.grey,
                       label: 'SUPORTE',
                       onTap: () {
                         irParaPackbag();
@@ -95,6 +79,7 @@ class SettingsScreen extends StatelessWidget {
 
                     // Botão REINICIAR APLICATIVO
                     _settingsButton(
+                      backgroundColor: Colors.grey,
                       label: 'REINICIAR APLICATIVO',
                       onTap: () {
                         Restart.restartApp();
@@ -105,7 +90,6 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
 
-            // ── Rodapé preto (padrão do projeto) ───────────────────────
             Container(height: 30, color: Colors.black),
           ],
         ),
@@ -113,23 +97,28 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _settingsButton({required String label, required VoidCallback onTap}) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        side: const BorderSide(color: Colors.black87, width: 1.5),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  Widget _settingsButton({
+    required String label,
+    required VoidCallback onTap,
+    required MaterialColor backgroundColor,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
-        elevation: 0,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade400,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+            color: Colors.black,
+          ),
         ),
       ),
     );
