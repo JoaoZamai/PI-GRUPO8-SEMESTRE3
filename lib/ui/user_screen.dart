@@ -2,7 +2,7 @@ import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firabase_data/user.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firebase_data/user.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -28,18 +28,19 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.grey,
+        centerTitle: true,
+        title: Image.asset(
+          'lib/assets/pblogo.png',
+          width: 160,
+          height: 80,
+          fit: BoxFit.contain,
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header (padrão do projeto) ──────────────────────────────
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.grey,
-              child: Row(
-                children: [Image.asset('lib/assets/pblogo.png', height: 40)],
-              ),
-            ),
-
             // ── Conteúdo ────────────────────────────────────────────────
             Expanded(
               child: SingleChildScrollView(
@@ -47,7 +48,7 @@ class _UserScreenState extends State<UserScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Título + botão voltar
+                    // Título
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -57,22 +58,6 @@ class _UserScreenState extends State<UserScreen> {
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: Image.asset(
-                              'lib/assets/voltar.png',
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.contain,
-                            ),
                           ),
                         ),
                       ],
@@ -119,8 +104,8 @@ class _UserScreenState extends State<UserScreen> {
                             children: [
                               Text(
                                 viewModel.usuario.isNotEmpty
-                                  ? viewModel.usuario.first.nome
-                                  : 'Carregando...',
+                                    ? viewModel.usuario.first.nome
+                                    : 'Carregando...',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -130,8 +115,8 @@ class _UserScreenState extends State<UserScreen> {
                               SizedBox(height: 4),
                               Text(
                                 viewModel.usuario.isNotEmpty
-                                  ? viewModel.usuario.first.email
-                                  : '',
+                                    ? viewModel.usuario.first.email
+                                    : '',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black54,
@@ -140,8 +125,8 @@ class _UserScreenState extends State<UserScreen> {
                               SizedBox(height: 4),
                               Text(
                                 viewModel.nomeSensor.isNotEmpty
-                                  ? viewModel.nomeSensor
-                                  : '',
+                                    ? viewModel.nomeSensor
+                                    : '',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black54,
@@ -164,7 +149,11 @@ class _UserScreenState extends State<UserScreen> {
                             fixedSize: const Size(182, 45),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.alterar, arguments: viewModel.usuario.first);
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.alterar,
+                              arguments: viewModel.usuario.first,
+                            );
                           },
                           child: const Text("Alterar Cadastro"),
                         ),

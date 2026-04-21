@@ -11,7 +11,7 @@ class CadastroScreen extends StatefulWidget {
 
 class _CadastroScreenState extends State<CadastroScreen> {
   late final RegisterViewmodel viewModel;
-  
+
   @override
   void initState() {
     super.initState();
@@ -27,27 +27,14 @@ class _CadastroScreenState extends State<CadastroScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: viewModel, 
-      builder: (_, __){
+      animation: viewModel,
+      builder: (_, __) {
         return Scaffold(
           backgroundColor: Colors.white,
+          appBar: AppBar(backgroundColor: Colors.grey, elevation: 0),
           body: SafeArea(
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  color: Colors.grey,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "lib/assets/pblogo.png",
-                        height: 40,
-                        fit: BoxFit.contain,
-                      ),
-                    ],
-                  ),
-                ),
-
                 SizedBox(height: 15),
 
                 Expanded(
@@ -57,7 +44,9 @@ class _CadastroScreenState extends State<CadastroScreen> {
                       children: [
                         // botão voltar
                         Padding(
-                          padding: const EdgeInsets.only(left: 16), // ajusta aqui
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                          ), // ajusta aqui
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Container(
@@ -101,31 +90,31 @@ class _CadastroScreenState extends State<CadastroScreen> {
                               padding: EdgeInsets.all(20),
                               child: Column(
                                 children: [
-                                  Icon(
-                                    Icons.account_circle,
-                                    size: 100,
-                                  ),
-                                  
-                                  SizedBox(height: 30,),
-                                  
+                                  Icon(Icons.account_circle, size: 100),
+
+                                  SizedBox(height: 30),
+
                                   Form(
                                     key: viewModel.formKey,
                                     child: Column(
                                       children: [
                                         TextFormField(
                                           controller: viewModel.emailController,
-                                          keyboardType: TextInputType.emailAddress,
+                                          keyboardType:
+                                              TextInputType.emailAddress,
                                           validator: viewModel.emailValidator,
                                           decoration: const InputDecoration(
                                             labelText: "Email",
                                             border: OutlineInputBorder(),
-                                            prefixIcon: Icon(Icons.email_outlined),
+                                            prefixIcon: Icon(
+                                              Icons.email_outlined,
+                                            ),
                                             filled: true,
-                                            fillColor: Colors.white
+                                            fillColor: Colors.white,
                                           ),
                                         ),
 
-                                        SizedBox(height: 20,),
+                                        SizedBox(height: 20),
 
                                         TextFormField(
                                           controller: viewModel.nomeController,
@@ -134,24 +123,32 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                           decoration: const InputDecoration(
                                             labelText: "Usuário",
                                             border: OutlineInputBorder(),
-                                            prefixIcon: Icon(Icons.account_circle_outlined),
+                                            prefixIcon: Icon(
+                                              Icons.account_circle_outlined,
+                                            ),
                                             filled: true,
-                                            fillColor: Colors.white
+                                            fillColor: Colors.white,
                                           ),
                                         ),
 
-                                        SizedBox(height: 20,),
+                                        SizedBox(height: 20),
 
                                         TextFormField(
-                                          controller: viewModel.passwordController,
-                                          obscureText: viewModel.obscurePassword,
-                                          validator: viewModel.passwordValidator,
+                                          controller:
+                                              viewModel.passwordController,
+                                          obscureText:
+                                              viewModel.obscurePassword,
+                                          validator:
+                                              viewModel.passwordValidator,
                                           decoration: InputDecoration(
                                             labelText: "Senha",
                                             border: OutlineInputBorder(),
-                                            prefixIcon: Icon(Icons.lock_outlined),
+                                            prefixIcon: Icon(
+                                              Icons.lock_outlined,
+                                            ),
                                             suffixIcon: IconButton(
-                                              onPressed: viewModel.togglePasswordVisibility,
+                                              onPressed: viewModel
+                                                  .togglePasswordVisibility,
                                               icon: Icon(
                                                 viewModel.obscurePassword
                                                     ? Icons.visibility
@@ -159,22 +156,27 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                               ),
                                             ),
                                             filled: true,
-                                            fillColor: Colors.white
+                                            fillColor: Colors.white,
                                           ),
                                         ),
 
-                                        SizedBox(height: 20,),
+                                        SizedBox(height: 20),
 
                                         TextFormField(
-                                          controller: viewModel.confirmController,
-                                          obscureText: viewModel.obscurePassword,
+                                          controller:
+                                              viewModel.confirmController,
+                                          obscureText:
+                                              viewModel.obscurePassword,
                                           validator: viewModel.confirmValidator,
                                           decoration: InputDecoration(
                                             labelText: "Confirmar Senha",
                                             border: OutlineInputBorder(),
-                                            prefixIcon: Icon(Icons.lock_outlined),
+                                            prefixIcon: Icon(
+                                              Icons.lock_outlined,
+                                            ),
                                             suffixIcon: IconButton(
-                                              onPressed: viewModel.toggleConfirmVisibility,
+                                              onPressed: viewModel
+                                                  .toggleConfirmVisibility,
                                               icon: Icon(
                                                 viewModel.obscureConfirm
                                                     ? Icons.visibility
@@ -182,35 +184,56 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                               ),
                                             ),
                                             filled: true,
-                                            fillColor: Colors.white
+                                            fillColor: Colors.white,
                                           ),
                                         ),
-                                        
-                                        SizedBox(height: 30,),
+
+                                        SizedBox(height: 30),
 
                                         ElevatedButton(
-                                          onPressed: viewModel.isLoading ? null : () async {
-                                            final error = await viewModel.register();
+                                          onPressed: viewModel.isLoading
+                                              ? null
+                                              : () async {
+                                                  final error = await viewModel
+                                                      .register();
 
-                                            if (error == "form_error") return;
+                                                  if (error == "form_error")
+                                                    return;
 
-                                            if (error != null) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(content: Text(error)),
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text("Usuário cadastrado com sucesso!")),
-                                              );
+                                                  if (error != null) {
+                                                    ScaffoldMessenger.of(
+                                                      context,
+                                                    ).showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(error),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                      context,
+                                                    ).showSnackBar(
+                                                      const SnackBar(
+                                                        content: Text(
+                                                          "Usuário cadastrado com sucesso!",
+                                                        ),
+                                                      ),
+                                                    );
 
-                                              Navigator.pushNamed(context, AppRoutes.home);
-                                            }
-                                          },
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      AppRoutes.home,
+                                                    );
+                                                  }
+                                                },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.deepOrange,
-                                            minimumSize: const Size(150, 40), // width e height
+                                            minimumSize: const Size(
+                                              150,
+                                              40,
+                                            ), // width e height
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
                                             elevation: 10,
                                             shadowColor: Colors.black38,
@@ -219,10 +242,11 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                               ? const SizedBox(
                                                   width: 22,
                                                   height: 22,
-                                                  child: CircularProgressIndicator(
-                                                    strokeWidth: 2,
-                                                    color: Colors.white,
-                                                  ),
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        color: Colors.white,
+                                                      ),
                                                 )
                                               : const Text(
                                                   "Criar Conta",
@@ -231,11 +255,11 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
-                                ]
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -272,7 +296,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
             ),
           ),
         );
-      }
-    ); 
+      },
+    );
   }
 }
