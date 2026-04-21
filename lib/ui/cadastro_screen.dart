@@ -1,6 +1,7 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/register_viewmodel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CadastroScreen extends StatefulWidget {
   const CadastroScreen({super.key});
@@ -11,6 +12,16 @@ class CadastroScreen extends StatefulWidget {
 
 class _CadastroScreenState extends State<CadastroScreen> {
   late final RegisterViewmodel viewModel;
+
+  Future<void> irParaPackbag() async {
+    final Uri url = Uri.parse('https://packbag.com.br/contato/');
+
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    } else {
+      throw Exception('Não foi possível abrir $url');
+    }
+  }
   
   @override
   void initState() {
@@ -245,27 +256,30 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   ),
                 ),
 
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                SizedBox(
                   height: 30,
                   width: 100,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.deepOrange,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black38,
-                        blurRadius: 18,
-                        offset: Offset(0, 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      irParaPackbag();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ],
-                  ),
-                  child: Text(
-                    'Ajuda',
-                    style: TextStyle(fontSize: 15, color: Colors.white),
+                      elevation: 10,
+                      shadowColor: Colors.black38,
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Text(
+                      'Ajuda',
+                      style: TextStyle(fontSize: 15, color: Colors.white),
+                    ),
                   ),
                 ),
+
+                SizedBox(height: 10,),
 
                 Container(height: 30, color: Colors.black),
               ],
