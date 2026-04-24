@@ -1,6 +1,7 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/cadSensor_viewmodel.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 
 class CadSensorScreen extends StatefulWidget {
   const CadSensorScreen({super.key});
@@ -30,46 +31,47 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
       animation: viewModel,
       builder: (_, __) {
         return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(backgroundColor: Colors.grey, elevation: 0),
+          backgroundColor: AppColors.branco,
+          appBar: AppBar(
+            backgroundColor: AppColors.cinza,
+            iconTheme: IconThemeData(
+              color: AppColors.preto,
+            ),
+            centerTitle: true,
+            title: Image.asset(
+              AppColors.logo,
+              key: ValueKey(AppColors.logo),
+              width: 160,
+              height: 80,
+              fit: BoxFit.contain,
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: (){
+                  setState(() {
+                    AppColors.mudarContraste();
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(10),
+                  backgroundColor: AppColors.cinzaClaro,
+                ), 
+                child: 
+                  Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+              ),
+            ]
+          ),
           body: SafeArea(
             child: Column(
               children: [
-                SizedBox(height: 15),
+                SizedBox(height: 50),
 
                 Expanded(
                   child: Container(
-                    color: Colors.white,
+                    color: AppColors.branco,
                     child: Column(
                       children: [
-                        // botão voltar
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                          ), // ajusta aqui
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.sensores,
-                                ),
-                                child: Image.asset(
-                                  'lib/assets/voltar.png',
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
 
                         SizedBox(height: 15),
 
@@ -78,11 +80,11 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                             width: 320,
                             height: 600,
                             decoration: BoxDecoration(
-                              color: Colors.grey[300],
+                              color: AppColors.cinzaClaro,
                               borderRadius: BorderRadius.circular(25),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black38,
+                                  color: AppColors.pretoClaro,
                                   blurRadius: 18,
                                   offset: Offset(0, 10),
                                 ),
@@ -98,8 +100,8 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                   Stack(
                                     alignment: Alignment.bottomRight,
                                     children: [
-                                      Icon(Icons.memory, size: 50),
-                                      Icon(Icons.add, size: 20),
+                                      Icon(Icons.memory, size: 50, color: AppColors.preto),
+                                      Icon(Icons.add, size: 20, color: AppColors.preto),
                                     ],
                                   ),
 
@@ -113,12 +115,20 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                           controller: viewModel.nomeController,
                                           keyboardType: TextInputType.text,
                                           validator: viewModel.nomeValidator,
-                                          decoration: const InputDecoration(
+                                          style: TextStyle(color: AppColors.preto),
+                                          decoration: InputDecoration(
                                             labelText: "Nome Conexão",
-                                            border: OutlineInputBorder(),
-                                            prefixIcon: Icon(Icons.add),
+                                            labelStyle: TextStyle(color: AppColors.pretoClaro),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: AppColors.pretoClaro),
+                                            ),
+
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: AppColors.pretoClaro, width: 2),
+                                            ),
+                                            prefixIcon: Icon(Icons.add, color: AppColors.pretoClaro),
                                             filled: true,
-                                            fillColor: Colors.white,
+                                            fillColor: AppColors.branco,
                                           ),
                                         ),
 
@@ -126,6 +136,13 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
 
                                         DropdownButtonFormField<String>(
                                           initialValue: "Ativo",
+
+                                          style: TextStyle(
+                                            color: AppColors.preto
+                                          ),
+
+                                          iconEnabledColor: AppColors.pretoClaro,
+
                                           items: const [
                                             DropdownMenuItem(
                                               value: "Ativo",
@@ -142,14 +159,21 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                               viewModel.notifyListeners();
                                             }
                                           },
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                             labelText: "Status",
-                                            border: OutlineInputBorder(),
+                                            labelStyle: TextStyle(color: AppColors.pretoClaro),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: AppColors.pretoClaro),
+                                            ),
+
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(color: AppColors.pretoClaro, width: 2),
+                                            ),
                                             prefixIcon: Icon(
-                                              Icons.toggle_on_outlined,
+                                              Icons.toggle_on_outlined, color: AppColors.pretoClaro
                                             ),
                                             filled: true,
-                                            fillColor: Colors.white,
+                                            fillColor: AppColors.branco,
                                           ),
                                           validator: (value) {
                                             if (value == null ||
@@ -198,7 +222,7 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                                   }
                                                 },
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.deepOrange,
+                                            backgroundColor: AppColors.laranja,
                                             minimumSize: const Size(
                                               150,
                                               40,
@@ -208,23 +232,23 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                                                   BorderRadius.circular(10),
                                             ),
                                             elevation: 10,
-                                            shadowColor: Colors.black38,
+                                            shadowColor: AppColors.pretoClaro,
                                           ),
                                           child: viewModel.isLoading
-                                              ? const SizedBox(
+                                              ? SizedBox(
                                                   width: 22,
                                                   height: 22,
                                                   child:
                                                       CircularProgressIndicator(
                                                         strokeWidth: 2,
-                                                        color: Colors.white,
+                                                        color: AppColors.branco,
                                                       ),
                                                 )
-                                              : const Text(
+                                              : Text(
                                                   "Cadastrar",
                                                   style: TextStyle(
                                                     fontSize: 20,
-                                                    color: Colors.white,
+                                                    color: AppColors.branco,
                                                   ),
                                                 ),
                                         ),
@@ -241,7 +265,7 @@ class _CadSensorScreenState extends State<CadSensorScreen> {
                   ),
                 ),
 
-                Container(height: 30, color: Colors.black),
+                Container(height: 30, color: AppColors.preto),
               ],
             ),
           ),

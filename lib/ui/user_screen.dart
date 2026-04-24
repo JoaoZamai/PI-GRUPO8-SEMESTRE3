@@ -1,4 +1,5 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,16 +28,36 @@ class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.branco,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: AppColors.cinza,
+        iconTheme: IconThemeData(
+          color: AppColors.preto,
+        ),
         centerTitle: true,
         title: Image.asset(
-          'lib/assets/pblogo.png',
+          AppColors.logo,
+          key: ValueKey(AppColors.logo),
           width: 160,
           height: 80,
           fit: BoxFit.contain,
         ),
+        actions: [
+          ElevatedButton(
+            onPressed: (){
+              setState(() {
+                AppColors.mudarContraste();
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10),
+              backgroundColor: AppColors.cinzaClaro,
+            ), 
+            child: 
+              Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+          ),
+        ]
       ),
       body: SafeArea(
         child: Column(
@@ -52,12 +73,12 @@ class _UserScreenState extends State<UserScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'USUÁRIO:',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.preto,
                           ),
                         ),
                       ],
@@ -69,11 +90,11 @@ class _UserScreenState extends State<UserScreen> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.grey[300],
+                        color: AppColors.cinzaClaro,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
-                            color: Colors.black12,
+                            color: AppColors.pretoClaro,
                             blurRadius: 8,
                             offset: Offset(0, 4),
                           ),
@@ -87,12 +108,12 @@ class _UserScreenState extends State<UserScreen> {
                             height: 72,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.grey[400],
+                              color: AppColors.contraste ? AppColors.preto : AppColors.cinza,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.person,
                               size: 48,
-                              color: Colors.white,
+                              color: AppColors.branco,
                             ),
                           ),
 
@@ -109,7 +130,7 @@ class _UserScreenState extends State<UserScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                                  color: AppColors.preto,
                                 ),
                               ),
                               SizedBox(height: 4),
@@ -119,7 +140,7 @@ class _UserScreenState extends State<UserScreen> {
                                     : '',
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Colors.black54,
+                                  color: AppColors.pretoClaro,
                                 ),
                               ),
                               SizedBox(height: 4),
@@ -129,7 +150,7 @@ class _UserScreenState extends State<UserScreen> {
                                     : '',
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Colors.black54,
+                                  color: AppColors.pretoClaro,
                                 ),
                               ),
                             ],
@@ -144,8 +165,8 @@ class _UserScreenState extends State<UserScreen> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepOrange,
-                            foregroundColor: Colors.white,
+                            backgroundColor: AppColors.laranja,
+                            foregroundColor: AppColors.branco,
                             fixedSize: const Size(182, 45),
                           ),
                           onPressed: () {
@@ -162,8 +183,8 @@ class _UserScreenState extends State<UserScreen> {
 
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepOrange,
-                            foregroundColor: Colors.white,
+                            backgroundColor: AppColors.laranja,
+                            foregroundColor: AppColors.branco,
                             fixedSize: const Size(182, 45),
                           ),
                           onPressed: () async {
@@ -184,7 +205,7 @@ class _UserScreenState extends State<UserScreen> {
             ),
 
             // ── Rodapé preto (padrão do projeto) ───────────────────────
-            Container(height: 30, color: Colors.black),
+            Container(height: 30, color: AppColors.preto),
           ],
         ),
       ),

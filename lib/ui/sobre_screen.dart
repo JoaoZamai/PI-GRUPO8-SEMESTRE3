@@ -1,21 +1,57 @@
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class SobreScreen extends StatelessWidget {
+class SobreScreen extends StatefulWidget {
   const SobreScreen({super.key});
+
+  @override
+  State<SobreScreen> createState() => _SobreScreenState();
+}
+
+class _SobreScreenState extends State<SobreScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.branco,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: AppColors.cinza,
+        iconTheme: IconThemeData(
+          color: AppColors.preto,
+        ),
         centerTitle: true,
         title: Image.asset(
-          'lib/assets/pblogo.png',
+          AppColors.logo,
+          key: ValueKey(AppColors.logo),
           width: 160,
           height: 80,
           fit: BoxFit.contain,
         ),
+        actions: [
+          ElevatedButton(
+            onPressed: (){
+              setState(() {
+                AppColors.mudarContraste();
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10),
+              backgroundColor: AppColors.cinzaClaro,
+            ), 
+            child: 
+              Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+          ),
+        ]
       ),
 
       body: SafeArea(
@@ -31,12 +67,12 @@ class SobreScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'SOBRE:',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: AppColors.preto,
                           ),
                         ),
                       ],
@@ -44,13 +80,13 @@ class SobreScreen extends StatelessWidget {
 
                     const SizedBox(height: 40),
 
-                    const Center(
+                    Center(
                       child: Text(
                         'Protótipo de interface\ngráfica para o aplicativo,\nhaverá alterações.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black87,
+                          color: AppColors.preto,
                           height: 1.6,
                         ),
                       ),
@@ -73,7 +109,7 @@ class SobreScreen extends StatelessWidget {
               ),
             ),
 
-            Container(height: 30, color: Colors.black),
+            Container(height: 30, color: AppColors.preto),
           ],
         ),
       ),
