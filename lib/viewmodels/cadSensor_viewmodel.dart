@@ -95,7 +95,7 @@ class CadSensorViewmodel extends ChangeNotifier {
           .collection('Sensor')
           .doc(id)
           .update({
-        'NomeSensor': nome,
+        'NomeSensor': nomeController.text.trim(),
         'Operando': statusfire,
       });
 

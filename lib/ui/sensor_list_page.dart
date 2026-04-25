@@ -1,4 +1,5 @@
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/sensor_viewmodel.dart';
 
@@ -30,50 +31,57 @@ class _SensorListPageState extends State<SensorListPage> {
       animation: viewModel,
       builder: (_, _) {
         return Scaffold(
+          backgroundColor: AppColors.branco,
+          appBar: AppBar(
+            backgroundColor: AppColors.cinza,
+            iconTheme: IconThemeData(
+              color: AppColors.preto,
+            ),
+            centerTitle: true,
+            title: Image.asset(
+              AppColors.logo,
+              key: ValueKey(AppColors.logo),
+              width: 160,
+              height: 80,
+              fit: BoxFit.contain,
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: (){
+                  setState(() {
+                    AppColors.mudarContraste();
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(10),
+                  backgroundColor: AppColors.cinzaClaro,
+                ), 
+                child: 
+                  Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+              ),
+            ]
+          ),
           body: SafeArea(
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  color: Colors.grey,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "lib/assets/pblogo.png",
-                        height: 40,
-                        fit: BoxFit.contain,
-                      ),
-                    ],
-                  ),
-                ),
-
                 SizedBox(height: 20),
 
-                Padding(
-                  padding: const EdgeInsets.only(left: 16), // ajusta aqui
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
-                        child: Image.asset(
-                            'lib/assets/voltar.png',
-                          width: 30,
-                          height: 30,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
                 Card(
-                  margin: const EdgeInsets.only(bottom: 16),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: AppColors.contraste
+                        ? BorderSide(
+                            color: AppColors.preto,
+                            width: 2,
+                          )
+                        : BorderSide.none,
+                  ),
+                  color: AppColors.cinzaClaro2,
                   child: InkWell(
                     child: Padding(
                       padding: const EdgeInsets.all(12),
@@ -84,20 +92,27 @@ class _SensorListPageState extends State<SensorListPage> {
                             height: 90,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: Colors.grey.shade200,
+                              color: AppColors.cinzaClaro,
+                              border: AppColors.contraste
+                                ? Border.all(
+                                    color: AppColors.preto,
+                                    width: 2,
+                                  )
+                                : null,
                             ),
-                            child: const Icon(Icons.memory, size: 30),
+                            child: Icon(Icons.memory, size: 30, color: AppColors.preto),
                           ),
-                          const SizedBox(width: 12,),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Adicionar nova Conexão",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
+                                    color: AppColors.preto
                                   ),
                                 ),
                               ],
@@ -106,9 +121,24 @@ class _SensorListPageState extends State<SensorListPage> {
                           const SizedBox(width: 8),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, AppRoutes.cadsensores);
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.cadsensores,
+                              );
                             },
-                            child: const Icon(Icons.add, color: Colors.black),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.branco,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              side: AppColors.contraste
+                                ? BorderSide(
+                                    color: AppColors.preto,
+                                    width: 2,
+                                  )
+                                : BorderSide.none,
+                            ),
+                            child: Icon(Icons.add, color: AppColors.preto),
                           ),
                         ],
                       ),
@@ -124,7 +154,20 @@ class _SensorListPageState extends State<SensorListPage> {
                       final sensor = viewModel.sensores[index];
 
                       return Card(
-                        margin: const EdgeInsets.only(bottom: 16),
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: AppColors.contraste
+                              ? BorderSide(
+                                  color: AppColors.preto,
+                                  width: 2,
+                                )
+                              : BorderSide.none,
+                        ),
+                        color: AppColors.cinzaClaro2,
                         child: InkWell(
                           child: Padding(
                             padding: const EdgeInsets.all(12),
@@ -135,35 +178,45 @@ class _SensorListPageState extends State<SensorListPage> {
                                   height: 90,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color: Colors.grey.shade200,
+                                    color: AppColors.cinzaClaro,
+                                    border: AppColors.contraste
+                                      ? Border.all(
+                                          color: AppColors.preto,
+                                          width: 2,
+                                        )
+                                      : null,
                                   ),
-                                  child: const Icon(Icons.memory, size: 30),
+                                  child: Icon(Icons.memory, size: 30, color: AppColors.preto),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         sensor.name,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
+                                          color: AppColors.preto
                                         ),
                                       ),
                                       const SizedBox(height: 8),
                                       Row(
                                         children: [
                                           Icon(
-                                            Icons.circle, 
-                                            size: 15, 
+                                            Icons.circle,
+                                            size: 15,
                                             color: sensor.operando == 'Inativo'
-                                              ? Colors.red
-                                              : Colors.green,
+                                                ? Colors.red
+                                                : Colors.green,
                                           ),
                                           Text(
                                             sensor.operando,
-                                            style: const TextStyle(color: Colors.black54),
+                                            style: TextStyle(
+                                              color: AppColors.preto,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -174,17 +227,52 @@ class _SensorListPageState extends State<SensorListPage> {
                                 Column(
                                   children: [
                                     ElevatedButton(
-                                      onPressed: () {},
-                                      child: Icon(Icons.add_link, color: Colors.black)
+                                      onPressed: () {
+                                        viewModel.linkarSensor(context, sensor);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.branco,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        side: AppColors.contraste
+                                          ? BorderSide(
+                                              color: AppColors.preto,
+                                              width: 2,
+                                            )
+                                          : BorderSide.none,
+                                      ),
+                                      child: Icon(
+                                        Icons.add_link,
+                                        color: AppColors.preto,
+                                      ),
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        viewModel.onSensorPressed(context, sensor);
+                                        viewModel.onSensorPressed(
+                                          context,
+                                          sensor,
+                                        );
                                       },
-                                      child: Icon(Icons.edit, color: Colors.black)
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.branco,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        side: AppColors.contraste
+                                          ? BorderSide(
+                                              color: AppColors.preto,
+                                              width: 2,
+                                            )
+                                          : BorderSide.none,
+                                      ),
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: AppColors.preto,
+                                      ),
                                     ),
-                                  ]
-                                )
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -194,7 +282,7 @@ class _SensorListPageState extends State<SensorListPage> {
                   ),
                 ),
 
-                Container(height: 30, color: Colors.black),
+                Container(height: 30, color: AppColors.preto),
               ],
             ),
           ),

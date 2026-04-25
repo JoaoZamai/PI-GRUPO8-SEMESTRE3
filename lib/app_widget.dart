@@ -11,7 +11,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'PACKBAG - Máquina de Corte',
-      initialRoute: AppRoutes.dashboard,
+      initialRoute: AppRoutes.splash,
       routes: AppPages.routes,
     );
   }

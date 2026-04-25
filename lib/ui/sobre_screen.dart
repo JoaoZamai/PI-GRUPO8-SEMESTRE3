@@ -1,27 +1,62 @@
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class SobreScreen extends StatelessWidget {
+class SobreScreen extends StatefulWidget {
   const SobreScreen({super.key});
+
+  @override
+  State<SobreScreen> createState() => _SobreScreenState();
+}
+
+class _SobreScreenState extends State<SobreScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.branco,
+      appBar: AppBar(
+        backgroundColor: AppColors.cinza,
+        iconTheme: IconThemeData(
+          color: AppColors.preto,
+        ),
+        centerTitle: true,
+        title: Image.asset(
+          AppColors.logo,
+          key: ValueKey(AppColors.logo),
+          width: 160,
+          height: 80,
+          fit: BoxFit.contain,
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: (){
+              setState(() {
+                AppColors.mudarContraste();
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10),
+              backgroundColor: AppColors.cinzaClaro,
+            ), 
+            child: 
+              Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+          ),
+        ]
+      ),
+
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header (padrão do projeto) ──────────────────────────────
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.grey,
-              child: Row(
-                children: [
-                  Image.asset('lib/assets/pblogo.png', height: 40),
-                ],
-              ),
-            ),
-
-            // ── Conteúdo ────────────────────────────────────────────────
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
@@ -32,28 +67,12 @@ class SobreScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'SOBRE:',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: Image.asset(
-                              'lib/assets/voltar.png',
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.contain,
-                            ),
+                            color: AppColors.preto,
                           ),
                         ),
                       ],
@@ -61,16 +80,28 @@ class SobreScreen extends StatelessWidget {
 
                     const SizedBox(height: 40),
 
-                    // Texto descritivo centralizado
-                    const Center(
+                    Center(
                       child: Text(
                         'Protótipo de interface\ngráfica para o aplicativo,\nhaverá alterações.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black87,
+                          color: AppColors.preto,
                           height: 1.6,
                         ),
+                      ),
+                    ),
+
+                    Center(
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'lib/assets/packbagcat.gif',
+                            width: 600,
+                            height: 600,
+                            fit: BoxFit.contain,
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -78,8 +109,7 @@ class SobreScreen extends StatelessWidget {
               ),
             ),
 
-            // ── Rodapé preto (padrão do projeto) ───────────────────────
-            Container(height: 30, color: Colors.black),
+            Container(height: 30, color: AppColors.preto),
           ],
         ),
       ),
