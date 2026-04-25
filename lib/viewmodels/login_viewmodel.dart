@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
-import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
 
 class LoginViewmodel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -27,6 +28,10 @@ class LoginViewmodel extends ChangeNotifier {
     ])(value);
   }
 
+  String hashSenha(String senha) {
+    return sha256.convert(utf8.encode(senha)).toString();
+  }
+
   Future<void> login(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
@@ -37,32 +42,39 @@ class LoginViewmodel extends ChangeNotifier {
 
     try {
       final email = emailController.text.trim();
-      final password = passwordController.text;
+      final senhaHash = hashSenha(passwordController.text);
 
-      await authService.value.signIn(email: email, password: password);
+      // Consulta no Firestore
+      final result = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .where('email', isEqualTo: email)
+          .get();
 
-      isLoading = false;
-      notifyListeners();
-      Navigator.pushNamed(context, AppRoutes.home);
-    } on FirebaseAuthException catch (e) {
-      isLoading = false;
-      notifyListeners();
-      String message;
-
-      if (e.code == 'user-not-found') {
-        message = 'Email não encontrado';
-      } else if (e.code == 'wrong-password') {
-        message = 'Senha incorreta';
-      } else if (e.code == 'invalid-email') {
-        message = 'Email inválido';
-      } else {
-        message = 'Erro ao fazer login';
+      if (result.docs.isEmpty) {
+        isLoading = false;
+        notifyListeners();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Email não encontrado')));
+        return;
       }
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
-    } catch (_) {
+      final userDoc = result.docs.first;
+      final storedSenha = userDoc['senha'];
+
+      if (senhaHash == storedSenha) {
+        // Login bem-sucedido
+        isLoading = false;
+        notifyListeners();
+        Navigator.pushNamed(context, AppRoutes.home);
+      } else {
+        isLoading = false;
+        notifyListeners();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Senha incorreta')));
+      }
+    } catch (e) {
       isLoading = false;
       notifyListeners();
       ScaffoldMessenger.of(

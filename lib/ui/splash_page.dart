@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
-import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
 import 'package:flutter/material.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/login_screen.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -16,11 +16,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      if (authService.value.currentUser != null) {
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-      } else {
-        Navigator.pushReplacementNamed(context, AppRoutes.login);
-      }
+      Navigator.pushNamed(context, AppRoutes.login);
     });
   }
 

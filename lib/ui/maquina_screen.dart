@@ -7,7 +7,6 @@ class MachineScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.grey,
         centerTitle: true,
@@ -19,7 +18,12 @@ class MachineScreen extends StatelessWidget {
         ),
       ),
 
-      body: SingleChildScrollView(),
+      body: const Center(
+        child: Text(
+          "Tela da Máquina",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }

@@ -40,9 +40,9 @@ dependencies:
   firebase_core: ^4.6.0
   restart_app: ^1.7.3
   url_launcher: ^6.3.2
-  firebase_auth: ^6.4.0
-  google_gemini: ^0.1.2
-  
+  provider: ^6.1.2
+  # assets: 
+  #  - lib/assets/
 
 dev_dependencies:
   flutter_test:
