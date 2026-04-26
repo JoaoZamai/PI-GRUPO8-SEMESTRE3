@@ -27,9 +27,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColors.branco,
       appBar: AppBar(
         backgroundColor: AppColors.cinza,
-        iconTheme: IconThemeData(
-          color: AppColors.preto,
-        ),
+        iconTheme: IconThemeData(color: AppColors.preto),
         centerTitle: true,
         title: Image.asset(
           AppColors.logo,
@@ -40,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           ElevatedButton(
-            onPressed: (){
+            onPressed: () {
               setState(() {
                 AppColors.mudarContraste();
               });
@@ -49,11 +47,10 @@ class _HomePageState extends State<HomePage> {
               shape: const CircleBorder(),
               padding: const EdgeInsets.all(10),
               backgroundColor: AppColors.cinzaClaro,
-            ), 
-            child: 
-              Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+            ),
+            child: Icon(Icons.accessibility, size: 30, color: AppColors.preto),
           ),
-        ]
+        ],
       ),
 
       body: SingleChildScrollView(
@@ -81,7 +78,10 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         "Visualização Inteligente",
-                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.preto),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.preto,
+                        ),
                       ),
                       SizedBox(width: 8),
                       Icon(Icons.lightbulb, color: AppColors.laranja),
@@ -142,7 +142,10 @@ class _HomePageState extends State<HomePage> {
 
                       return Text(
                         textoNome,
-                        style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.preto),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.preto,
+                        ),
                       );
                     },
                   ),
@@ -172,7 +175,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             estadoTexto,
-                            style: TextStyle(fontSize: 11, color: AppColors.preto),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.preto,
+                            ),
                           ),
                         ],
                       );
@@ -184,7 +190,12 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.memory, size: 40, color: AppColors.preto),
+                      Image.asset(
+                        'lib/assets/esp32.png',
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.contain,
+                      ),
 
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -219,11 +230,8 @@ class _HomePageState extends State<HomePage> {
                 color: AppColors.cinzaClaro,
                 borderRadius: BorderRadius.circular(16),
                 border: AppColors.contraste
-                                ? Border.all(
-                                    color: AppColors.preto,
-                                    width: 2,
-                                  )
-                                : null,
+                    ? Border.all(color: AppColors.preto, width: 2)
+                    : null,
               ),
               child: Center(
                 child: Row(
@@ -233,7 +241,10 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(width: 8),
                     Text(
                       "OUTROS DISPOSITIVOS",
-                      style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.preto),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.preto,
+                      ),
                     ),
                   ],
                 ),
@@ -299,11 +310,8 @@ class _HomePageState extends State<HomePage> {
             ),
             padding: const EdgeInsets.symmetric(vertical: 16),
             side: AppColors.contraste
-            ? BorderSide(
-                color: AppColors.preto,
-                width: 2,
-              )
-            : BorderSide.none,
+                ? BorderSide(color: AppColors.preto, width: 2)
+                : BorderSide.none,
           ),
           onPressed: onPressed,
           child: Column(
