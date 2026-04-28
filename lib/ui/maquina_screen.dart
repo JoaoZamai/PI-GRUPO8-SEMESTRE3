@@ -3,8 +3,8 @@ import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firebase_data/maquina.dart';
 
-// Aqui importamos a sua lógica que criamos no Arquivo 1
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firebase_data/cortes.dart';
 
 class MachineScreen extends StatefulWidget {
@@ -15,55 +15,89 @@ class MachineScreen extends StatefulWidget {
 }
 
 class _MachineScreenState extends State<MachineScreen> {
-  // Instancie a sua classe de serviço que está dentro de cortes.dart
-  // (Se você deu outro nome para a classe, mude aqui)
   final ContagemCortesService _service = ContagemCortesService();
+
+  // Declarando as variáveis que o seu Card de informações precisa
+  late Future<String?> _nomeMaquinaFuture;
+  late Future<bool?> _estadoMaquinaFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _nomeMaquinaFuture = lerNomeMaquina();
+    _estadoMaquinaFuture = lerEstadoMaquina();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Fundo branco conforme solicitado
+      backgroundColor: AppColors.branco,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: AppColors.cinza,
+        iconTheme: IconThemeData(color: AppColors.preto),
         centerTitle: true,
         title: Image.asset(
-          'lib/assets/pblogo.png',
+          AppColors.logo,
+          key: ValueKey(AppColors.logo),
           width: 160,
           height: 80,
           fit: BoxFit.contain,
         ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                AppColors.mudarContraste();
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10),
+              backgroundColor: AppColors.cinzaClaro,
+            ),
+            child: Icon(Icons.accessibility, size: 30, color: AppColors.preto),
+          ),
+        ],
       ),
-      // Corpo da tela envolto no StreamBuilder para atualizar em tempo real
+
       body: StreamBuilder<List<LogPHR>>(
-        stream: _service.getLogsDeHoje(), // O método que busca os dados de hoje
+        stream: _service.getLogsDeHoje(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(color: Colors.grey),
             );
           }
+
           if (snapshot.hasError) {
             return Center(
               child: Text('Erro ao carregar dados: ${snapshot.error}'),
             );
           }
 
-          // 1. Recebe os dados brutos
           final logs = snapshot.data ?? [];
-
-          // 2. Lógica para processar os totais e gerar os pontos do gráfico
           final int totalPecas = _service.calcularTotalPecas(logs);
           final double percentualMeta = _service.calcularPercentualMeta(
             totalPecas,
           );
+
           final List<FlSpot> spotsGrafico = _service.gerarSpotsDoGrafico(logs);
+
+          //Os elementos são construidos de baixo para cima, ou seja, aqui no SingleChild ele só chama eles, a construcao fica na parte inferior
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Cards Superiores
+                // 3. Gráfico Inferior
+                _buildGraficoHoras(spotsGrafico),
+                const SizedBox(height: 24),
+
+                _buildMachineInfoCard(),
+                const SizedBox(height: 24),
+
+                // 2. Cards Superiores
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -73,9 +107,6 @@ class _MachineScreenState extends State<MachineScreen> {
                   ],
                 ),
                 const SizedBox(height: 40),
-
-                // Gráfico Inferior
-                _buildGraficoHoras(spotsGrafico),
               ],
             ),
           );
@@ -84,9 +115,93 @@ class _MachineScreenState extends State<MachineScreen> {
     );
   }
 
-  // ==========================================
-  // WIDGETS VISUAIS (Tons de Cinza)
-  // ==========================================
+  Widget _buildMachineInfoCard() {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.cinzaClaro,
+        borderRadius: BorderRadius.circular(16),
+      ),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FutureBuilder<String?>(
+            future: _nomeMaquinaFuture,
+            builder: (context, snapshot) {
+              String textoNome = 'Nome da Máquina: ';
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                textoNome += 'Carregando...';
+              } else if (snapshot.hasError) {
+                textoNome += 'Erro ao carregar';
+              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                textoNome += snapshot.data!;
+              } else {
+                textoNome += 'Usuário precisa selecionar um dispositivo';
+              }
+
+              return Text(
+                textoNome,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              );
+            },
+          ),
+
+          FutureBuilder<bool?>(
+            future: _estadoMaquinaFuture,
+            builder: (context, snapshot) {
+              String estadoTexto = 'Estado: ';
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                estadoTexto += 'Carregando...';
+              } else if (snapshot.hasError) {
+                estadoTexto += 'Erro ao carregar';
+              } else if (snapshot.hasData) {
+                estadoTexto += snapshot.data! ? 'OPERANDO' : 'PARADO';
+              } else {
+                estadoTexto += 'Indisponível';
+              }
+
+              return Row(
+                children: [
+                  Icon(
+                    Icons.circle,
+                    size: 15,
+                    color: snapshot.data == false ? Colors.red : Colors.green,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ), // Pequeno espaço entre ícone e texto
+                  Text(
+                    estadoTexto,
+                    style: TextStyle(fontSize: 11, color: AppColors.preto),
+                  ),
+                ],
+              );
+            },
+          ),
+
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                'lib/assets/esp32.png',
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
+              ),
+              // Espaço para adicionar algum botão ou outra info do lado direito do ESP32 no futuro
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildCardPecasCortadas(int totalPecas) {
     return Column(
@@ -94,7 +209,7 @@ class _MachineScreenState extends State<MachineScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.grey[800], // Cinza escuro para o título
+            color: Colors.brown,
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Text(
@@ -106,7 +221,7 @@ class _MachineScreenState extends State<MachineScreen> {
           width: 140,
           height: 140,
           decoration: BoxDecoration(
-            color: Colors.grey[400], // Cinza médio para o corpo do card
+            color: Colors.orange,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Center(
@@ -114,7 +229,7 @@ class _MachineScreenState extends State<MachineScreen> {
               '$totalPecas',
               style: TextStyle(
                 fontSize: 48,
-                color: Colors.grey[900],
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -140,11 +255,12 @@ class _MachineScreenState extends State<MachineScreen> {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
+
         Container(
           width: 120,
           height: 180,
           decoration: BoxDecoration(
-            color: Colors.grey[300], // Fundo claro do container da meta
+            color: Colors.grey[300],
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -165,8 +281,7 @@ class _MachineScreenState extends State<MachineScreen> {
                   lineHeight: 30.0,
                   percent: percentual,
                   backgroundColor: Colors.white,
-                  progressColor:
-                      Colors.grey[600], // A barra de progresso em cinza
+                  progressColor: Colors.green,
                   barRadius: const Radius.circular(8),
                 ),
               ),
@@ -181,12 +296,9 @@ class _MachineScreenState extends State<MachineScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.grey[100], // Fundo bem claro para o gráfico
+        color: Colors.grey[100],
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.grey.shade300,
-          width: 2,
-        ), // Borda cinza suave
+        border: Border.all(color: Colors.grey.shade300, width: 2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,16 +327,14 @@ class _MachineScreenState extends State<MachineScreen> {
                   show: true,
                   drawVerticalLine: false,
                   horizontalInterval: 10,
-                  getDrawingHorizontalLine: (value) => FlLine(
-                    color: Colors.grey.shade300, // Linhas de fundo do gráfico
-                    strokeWidth: 1,
-                  ),
+                  getDrawingHorizontalLine: (value) =>
+                      FlLine(color: Colors.grey.shade300, strokeWidth: 1),
                 ),
                 titlesData: FlTitlesData(
-                  topTitles: AxisTitles(
+                  topTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
-                  rightTitles: AxisTitles(
+                  rightTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
                   bottomTitles: AxisTitles(
@@ -266,9 +376,9 @@ class _MachineScreenState extends State<MachineScreen> {
                         ? [const FlSpot(0, 0)]
                         : spotsGrafico,
                     isCurved: false,
-                    color: Colors.grey[700], // Linha do gráfico cinza escuro
+                    color: Colors.deepOrange,
                     barWidth: 3,
-                    dotData: FlDotData(show: true),
+                    dotData: const FlDotData(show: true),
                   ),
                 ],
               ),

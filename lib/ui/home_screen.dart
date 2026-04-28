@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
           height: 80,
           fit: BoxFit.contain,
         ),
+
         actions: [
           ElevatedButton(
             onPressed: () {
@@ -71,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+
               child: Column(
                 children: [
                   Row(
@@ -87,6 +89,7 @@ class _HomePageState extends State<HomePage> {
                       Icon(Icons.lightbulb, color: AppColors.laranja),
                     ],
                   ),
+
                   SizedBox(height: 12),
                   Text(
                     "Visualize seus dispositivos e monitore cada um deles.\n"
@@ -149,6 +152,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
+
                   FutureBuilder<bool?>(
                     future: _estadoMaquinaFuture,
                     builder: (context, snapshot) {
@@ -173,6 +177,7 @@ class _HomePageState extends State<HomePage> {
                                 ? Colors.red
                                 : Colors.green,
                           ),
+
                           Text(
                             estadoTexto,
                             style: TextStyle(
@@ -233,6 +238,7 @@ class _HomePageState extends State<HomePage> {
                     ? Border.all(color: AppColors.preto, width: 2)
                     : null,
               ),
+
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
