@@ -1,7 +1,8 @@
-import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
 import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
 import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firebase_data/maquina.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +14,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final Future<String?> _nomeMaquinaFuture;
   late final Future<bool?> _estadoMaquinaFuture;
+
+  String getDataFormatada() {
+    final now = DateTime.now();
+    return DateFormat("d 'de' MMMM 'de' y", 'pt_BR').format(now);
+  }
 
   @override
   void initState() {
@@ -31,12 +37,9 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: Image.asset(
           AppColors.logo,
-          key: ValueKey(AppColors.logo),
           width: 160,
           height: 80,
-          fit: BoxFit.contain,
         ),
-
         actions: [
           ElevatedButton(
             onPressed: () {
@@ -49,257 +52,345 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(10),
               backgroundColor: AppColors.cinzaClaro,
             ),
-            child: Icon(Icons.accessibility, size: 30, color: AppColors.preto),
+            child: Icon(Icons.accessibility, size: 28, color: AppColors.preto),
           ),
         ],
       ),
 
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.cinza,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.pretoClaro,
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
 
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Visualização Inteligente",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.preto,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(Icons.lightbulb, color: AppColors.laranja),
-                    ],
-                  ),
-
-                  SizedBox(height: 12),
-                  Text(
-                    "Visualize seus dispositivos e monitore cada um deles.\n"
-                    "Receba estimativas e previsões de produção.\n\n"
-                    "Verifique o estado do dispositivo se está ativo ou não.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13, color: AppColors.preto),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            Icon(Icons.arrow_downward, size: 28, color: AppColors.preto),
-
-            const SizedBox(height: 20),
-
-            /// CARD DISPOSITIVO
-            Container(
+            /// 🔹 CONTEÚDO COM PADDING
+            Padding(
               padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: AppColors.cinzaClaro,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.pretoClaro,
-                    blurRadius: 6,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FutureBuilder<String?>(
-                    future: _nomeMaquinaFuture,
-                    builder: (context, snapshot) {
-                      String textoNome = 'Nome da Máquina: ';
 
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        textoNome += 'Carregando...';
-                      } else if (snapshot.hasError) {
-                        textoNome += 'Erro ao carregar';
-                      } else if (snapshot.hasData &&
-                          snapshot.data!.isNotEmpty) {
-                        textoNome += snapshot.data!;
-                      } else {
-                        textoNome +=
-                            'Usuário precisa selecionar um dispositivo';
-                      }
-
-                      return Text(
-                        textoNome,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.preto,
-                        ),
-                      );
-                    },
+                  /// HEADER
+                  Text(
+                    "Bem-vindo(a)!",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.preto,
+                    ),
+                  ),
+                  Text(
+                    getDataFormatada(),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.pretoClaro,
+                    ),
                   ),
 
-                  FutureBuilder<bool?>(
-                    future: _estadoMaquinaFuture,
-                    builder: (context, snapshot) {
-                      String estadoTexto = 'Estado: ';
+                  const SizedBox(height: 20),
 
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        estadoTexto += 'Carregando...';
-                      } else if (snapshot.hasError) {
-                        estadoTexto += 'Erro ao carregar';
-                      } else if (snapshot.hasData) {
-                        estadoTexto += snapshot.data! ? 'OPERANDO' : 'PARADO';
-                      } else {
-                        estadoTexto += 'Indisponível';
-                      }
+                  /// CARD INFO
+                  Stack(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
+                        decoration: BoxDecoration(
+                          color: AppColors.cinzaClaro,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          "Visualize seus dispositivos e monitore cada um deles.\n"
+                          "Receba estimativas e previsões de produção.\n\n"
+                          "Verifique o estado do dispositivo se está ativo ou não.",
+                          style: TextStyle(fontSize: 14, color: AppColors.preto),
+                        ),
+                      ),
 
-                      return Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 15,
-                            color: snapshot.data == false
-                                ? Colors.red
-                                : Colors.green,
+                      Positioned(
+                        top: 0,
+                        left: 12,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.cinza,
+                            borderRadius: BorderRadius.circular(20),
                           ),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Visualização Inteligente",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.preto,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Icon(Icons.lightbulb,
+                                  color: AppColors.amarelo, size: 18),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
+                  const SizedBox(height: 25),
+
+                  Center(
+                    child: Icon(Icons.arrow_downward,
+                        size: 28, color: AppColors.preto),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  /// CARD MÁQUINA
+                  Stack(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: AppColors.cinzaClaro,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.pretoClaro,
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            FutureBuilder<String?>(
+                              future: _nomeMaquinaFuture,
+                              builder: (context, snapshot) {
+                                String nome = "Máquina de Corte";
+
+                                if (snapshot.hasData &&
+                                    snapshot.data!.isNotEmpty) {
+                                  nome = snapshot.data!;
+                                }
+
+                                return Text(
+                                  nome,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: AppColors.preto,
+                                  ),
+                                );
+                              },
+                            ),
+
+                            const SizedBox(height: 4),
+
+                            FutureBuilder<bool?>(
+                              future: _estadoMaquinaFuture,
+                              builder: (context, snapshot) {
+                                bool ativo = snapshot.data ?? false;
+
+                                return Text(
+                                  ativo ? "OPERANDO" : "PARADO",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: ativo ? Colors.green : Colors.red,
+                                  ),
+                                );
+                              },
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            Text(
+                              "ESP32: CONECTADO",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.preto,
+                              ),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Image.asset(
+                                  'lib/assets/esp32.png',
+                                  width: 70,
+                                ),
+
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.preto,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, AppRoutes.machine);
+                                  },
+                                  child: Text(
+                                    "VISUALIZAR",
+                                    style: TextStyle(
+                                      color: AppColors.branco,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: FutureBuilder<bool?>(
+                          future: _estadoMaquinaFuture,
+                          builder: (context, snapshot) {
+                            bool ativo = snapshot.data ?? false;
+
+                            return Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: ativo ? Colors.green : Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  /// OUTROS DISPOSITIVOS
+                  InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    onTap: () {},
+                    child: Container(
+                      height: 90,
+                      decoration: BoxDecoration(
+                        color: AppColors.cinzaClaro,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add, size: 28, color: AppColors.preto),
+                          const SizedBox(width: 8),
                           Text(
-                            estadoTexto,
+                            "OUTROS DISPOSITIVOS",
                             style: TextStyle(
-                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
                               color: AppColors.preto,
                             ),
                           ),
                         ],
-                      );
-                    },
+                      ),
+                    ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 20),
 
+                  /// BOTÕES
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        'lib/assets/esp32.png',
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.contain,
-                      ),
-
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.preto,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.machine);
-                        },
-                        child: Text(
-                          "VISUALIZAR",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.branco,
-                          ),
-                        ),
-                      ),
+                      _bottomButton(Icons.settings, "Configurações", () {
+                        Navigator.pushNamed(context, AppRoutes.settings);
+                      }),
+                      _bottomButton(Icons.person, "Usuário", () {
+                        Navigator.pushNamed(context, AppRoutes.user);
+                      }),
                     ],
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  /// SOBRE
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.preto,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.sobre);
+                    },
+                    child: Text(
+                      "SOBRE",
+                      style: TextStyle(
+                        color: AppColors.branco,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 15),
-
-            /// OUTROS DISPOSITIVOS
             Container(
-              height: 90,
-              decoration: BoxDecoration(
-                color: AppColors.cinzaClaro,
-                borderRadius: BorderRadius.circular(16),
-                border: AppColors.contraste
-                    ? Border.all(color: AppColors.preto, width: 2)
-                    : null,
-              ),
-
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.add, size: 28, color: AppColors.preto),
-                    SizedBox(width: 8),
-                    Text(
-                      "OUTROS DISPOSITIVOS",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.preto,
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                  color: Colors.black,
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        AppColors.logop,
+                        height: 60,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
 
-            const SizedBox(height: 15),
+                      const SizedBox(height: 10),
 
-            /// BOTÕES INFERIORES
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _bottomButton(Icons.settings, "Configurações", () {
-                  Navigator.pushNamed(context, AppRoutes.settings);
-                }),
-                _bottomButton(Icons.person, "Usuário", () {
-                  Navigator.pushNamed(context, AppRoutes.user);
-                }),
-              ],
-            ),
+                      Text(
+                        "PACKBAG",
+                        style: TextStyle(
+                          color: AppColors.contraste ? AppColors.preto : AppColors.branco,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                        ),
+                      ),
 
-            const SizedBox(height: 15),
+                      const SizedBox(height: 10),
 
-            /// SOBRE
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.preto,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.sobre);
-              },
-              child: Text(
-                "SOBRE",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.branco,
-                ),
-              ),
-            ),
+                      GestureDetector(
+                        onTap: () {
+                        },
+                        child: Text(
+                          "Política de privacidade",
+                          style: TextStyle(
+                            color: AppColors.laranja,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      Text(
+                        "© 2026 Pack Bag. Criado com carinho por Agência O3 Propaganda",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.contraste ? AppColors.preto : AppColors.cinza,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
           ],
         ),
       ),
     );
   }
 
-  // Reponsável por generalizar os botões inferiores (eu acredito)
   static Widget _bottomButton(
     IconData icon,
     String text,
@@ -312,12 +403,9 @@ class _HomePageState extends State<HomePage> {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.cinzaClaro,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(vertical: 16),
-            side: AppColors.contraste
-                ? BorderSide(color: AppColors.preto, width: 2)
-                : BorderSide.none,
           ),
           onPressed: onPressed,
           child: Column(
@@ -326,8 +414,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 5),
               Text(
                 text,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.preto, fontSize: 16),
+                style: TextStyle(color: AppColors.preto),
               ),
             ],
           ),

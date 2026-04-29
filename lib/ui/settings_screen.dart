@@ -121,7 +121,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
 
-            Container(height: 30, color: AppColors.preto),
+            Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                  color: Colors.black,
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        AppColors.logop,
+                        height: 60,
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Text(
+                        "PACKBAG",
+                        style: TextStyle(
+                          color: AppColors.contraste ? AppColors.preto : AppColors.branco,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      GestureDetector(
+                        onTap: () {
+                        },
+                        child: Text(
+                          "Política de privacidade",
+                          style: TextStyle(
+                            color: AppColors.laranja,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      Text(
+                        "© 2026 Pack Bag. Criado com carinho por Agência O3 Propaganda",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.contraste ? AppColors.preto : AppColors.cinza,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
           ],
         ),
       ),
