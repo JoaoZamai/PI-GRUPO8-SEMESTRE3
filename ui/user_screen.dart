@@ -1,0 +1,262 @@
+import 'package:PIGRUPO8SEMESTRE3main/routes/app_routes.dart';
+import 'package:PIGRUPO8SEMESTRE3main/ui/app_colors.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/viewmodels(firebase_auth)/auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:PIGRUPO8SEMESTRE3main/viewmodels/firebase_data/user.dart';
+
+class UserScreen extends StatefulWidget {
+  const UserScreen({super.key});
+
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  late final UsuarioViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = UsuarioViewModel();
+
+    viewModel.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.branco,
+      appBar: AppBar(
+        backgroundColor: AppColors.cinza,
+        iconTheme: IconThemeData(
+          color: AppColors.preto,
+        ),
+        centerTitle: true,
+        title: Image.asset(
+          AppColors.logo,
+          key: ValueKey(AppColors.logo),
+          width: 160,
+          height: 80,
+          fit: BoxFit.contain,
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: (){
+              setState(() {
+                AppColors.mudarContraste();
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(10),
+              backgroundColor: AppColors.cinzaClaro,
+            ), 
+            child: 
+              Icon(Icons.accessibility, size: 30, color: AppColors.preto)
+          ),
+        ]
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // ── Conteúdo ────────────────────────────────────────────────
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Título
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'USUÁRIO:',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.preto,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Card do usuário
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.cinzaClaro,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.pretoClaro,
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          // Avatar
+                          Container(
+                            width: 72,
+                            height: 72,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.contraste ? AppColors.preto : AppColors.cinza,
+                            ),
+                            child: Icon(
+                              Icons.person,
+                              size: 48,
+                              color: AppColors.branco,
+                            ),
+                          ),
+
+                          const SizedBox(width: 16),
+
+                          // Dados do usuário
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                viewModel.usuario.isNotEmpty
+                                    ? viewModel.usuario.first.nome
+                                    : 'Carregando...',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.preto,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                viewModel.usuario.isNotEmpty
+                                    ? viewModel.usuario.first.email
+                                    : '',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.pretoClaro,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                viewModel.nomeSensor.isNotEmpty
+                                    ? viewModel.nomeSensor
+                                    : '',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.pretoClaro,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 25),
+
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.laranja,
+                            foregroundColor: AppColors.branco,
+                            fixedSize: const Size(182, 45),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.alterar,
+                              arguments: viewModel.usuario.first,
+                            );
+                          },
+                          child: const Text("Alterar Cadastro"),
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.laranja,
+                            foregroundColor: AppColors.branco,
+                            fixedSize: const Size(182, 45),
+                          ),
+                          onPressed: () async {
+                            await authService.value.signOut();
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              AppRoutes.login,
+                              (route) => false,
+                            );
+                          },
+                          child: const Text("Sair"),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // ── Rodapé preto (padrão do projeto) ───────────────────────
+            Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                  color: Colors.black,
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        AppColors.logop,
+                        height: 60,
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Text(
+                        "PACKBAG",
+                        style: TextStyle(
+                          color: AppColors.contraste ? AppColors.preto : AppColors.branco,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      GestureDetector(
+                        onTap: () {
+                        },
+                        child: Text(
+                          "Política de privacidade",
+                          style: TextStyle(
+                            color: AppColors.laranja,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      Text(
+                        "© 2026 Pack Bag. Criado com carinho por Agência O3 Propaganda",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.contraste ? AppColors.preto : AppColors.cinza,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+          ],
+        ),
+      ),
+    );
+  }
+}
